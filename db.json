@@ -1,0 +1,23 @@
+{
+  "quotes": [
+    {
+      "id": 1,
+      "quote": "You only live once, but if you do it right, once is enough.",
+      "authorName": "-Mae West"
+    },
+    {
+      "id": 2,
+      "quote": "You have to complete it by today itself",
+      "authorName": "-Mae West"
+    },
+    {
+      "quote": "main tumhara main tumhara raha",
+      "authorName": "mere chanda",
+      "id": 10
+    }
+  ],
+  "users": {
+    "username": "admin",
+    "password": "admin"
+  }
+}

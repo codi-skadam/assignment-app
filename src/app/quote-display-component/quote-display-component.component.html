@@ -1,0 +1,13 @@
+<div class="card-container">
+  <div class="card" *ngFor="let quote of quotesList">
+    <div>
+      <div class="main-quote">"{{quote.quote}}"</div>
+      <div class="author-name">{{quote.authorName}}</div>
+    </div>
+
+    <div>
+      <button class="small-btn primary-btn" routerLink="/add-quote">Edit</button>
+      <button class="small-btn danger-btn " (click)="deleteQuote(quote?.id)">Delete</button>
+    </div>
+   </div>
+</div>
