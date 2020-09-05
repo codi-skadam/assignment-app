@@ -1,7 +1,5 @@
-:host {
+* {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  font-size: 14px;
-  color: #333;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -20,6 +18,50 @@ p {
   margin: 0;
 }
 
+$PRIMARY-COLOR:chartreuse;
+
+.light-theme{
+  $text-color:black;
+  $background-color:lightgray;
+  $border-color:#eee;
+  
+ .header {
+   background-color: $background-color;
+   color: $text-color;
+ }
+  
+ .card {
+  border: 1px solid $border-color;
+  background-color: $background-color;
+  color:$text-color;
+}
+button{
+  color: $text-color;
+}
+  
+}
+
+.dark-theme{
+ $text-color:white;
+ $background-color:black;
+ $border-color:#eee;
+.header {
+  background-color: $background-color;
+  color: $text-color;
+}
+
+.card {
+  border: 1px solid $border-color;
+  background-color: $background-color;
+  color:$text-color;
+}
+
+button{
+  color: $text-color;
+}
+}
+
+
 .header {
   position: absolute;
   top: 0;
@@ -30,8 +72,6 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: lightgray;
-  color: black;
   font-weight: 600;
 }
 
@@ -43,6 +83,7 @@ p {
   max-width: 80%;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
 }
 
 
@@ -92,18 +133,17 @@ input[type="text"],textarea,input[type="password"]{
   margin:12px 8px;
   &:focus{
     border:none;
-    border-bottom:2px solid chartreuse;
+    border-bottom:2px solid $PRIMARY-COLOR;
   }
 }
 
 button{
   cursor: pointer;
   padding:8px 16px;
-  background-color: chartreuse;
   border:none;
   outline: none;
-  color: black;
   border-radius: 5px;
+  background-color: $PRIMARY-COLOR;
 
 }
 
@@ -118,9 +158,54 @@ button{
 
 
 .primary-btn{
-  background-color: chartreuse;
+  background-color: $PRIMARY-COLOR;
 }
 
 .danger-btn{
   background-color: red;
+}
+
+
+.toggle-switch {
+  height: 26px;
+  width: 52px;
+  border-radius: 15px;
+  display: inline-block;
+  position: relative;
+  input {
+    display: none;
+    &:checked + .slider {
+      background-color: $PRIMARY-COLOR;
+    }
+    &:checked + .slider::after {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+    }
+  }
+  .slider {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: grey;
+    border-radius: 15px;
+    transition: 0.5s;
+    &::after {
+      position: absolute;
+      content: '';
+      height: 18px;
+      width: 18px;
+      border-radius: 15px;
+      background-color: white;
+      left: 4px;
+      bottom: 4px;
+      transition: 0.5s;
+    }
+  }
+}
+
+.mb-10{
+  margin-bottom: 10%;
 }

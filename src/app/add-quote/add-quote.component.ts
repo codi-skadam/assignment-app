@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import {QuotesServiceService} from '../services/quotes-service.service'
-import {Router} from "@angular/router"
+import {Router,ActivatedRoute, ActivatedRouteSnapshot} from "@angular/router"
 
 @Component({
   selector: 'app-add-quote',
@@ -10,22 +10,47 @@ import {Router} from "@angular/router"
 })
 export class AddQuoteComponent implements OnInit {
 
-  quoteForm = new FormGroup({
-    quote: new FormControl(''),
-    authorName: new FormControl(''),
-  });
-  constructor(private quotesService:QuotesServiceService,private router: Router) { }
-
-  ngOnInit(): void {
+  quoteForm:FormGroup;
+  isEdit:boolean=false;
+  quoteData:any;
+  constructor(private formBuilder: FormBuilder,private quotesService:QuotesServiceService,private router: Router,public activatedRoute: ActivatedRoute) {
+    this.generateForm();
   }
 
-  onSubmit() {
+  ngOnInit(): void {
+    if (this.router.url === '/edit-quote'){
+      this.isEdit = true;
+      this.quoteData = history.state;
+      this.quoteForm.patchValue(this.quoteData);
+    }
+  }
+
+  generateForm(){
+    this.quoteForm = this.formBuilder.group({
+      quote: [''],
+      authorName: [''],
+    });
+  }
+
+  saveQuote() {
     this.quotesService.addQuote(this.quoteForm.value).subscribe(resp=>{
       if(resp){
         this.router.navigate(['/']);
       }
-      console.log(resp);
     })
+  }
+
+  updateQuote () {
+    this.quotesService.updateQuote(this.quoteForm.value,this.quoteData).subscribe(resp=>{
+      if(resp){
+        this.router.navigate(['quotes-list']);
+      }
+    })
+  }
+
+  ngOnDestroy(): void {
+  this.isEdit = false;
+  this.quoteForm.reset();
   }
 
 }

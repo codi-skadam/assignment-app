@@ -1,7 +1,13 @@
 <div class="header" role="header">
   <h1 routerLink="/">Quotes Assignment App</h1>
-  <div>
-    <button class="link-button" routerLink="/add-quote">+ Add Quote</button>
-    <button class="link-button" routerLink="/login">Login</button>
+  <div class="top-nav">
+    <label class="theme-label">{{theme$|async}}</label>
+    <label class="toggle-switch">
+      <input type="checkbox" value="{{theme$|async}}" (change)="changeTheme()">
+      <div class="slider"></div>
+    </label>
+    <button class="link-button" routerLink="/add-quote" *ngIf="this.authService.isUserLoggednIn">+ Add Quote</button>
+    <button class="link-button" routerLink="/login" *ngIf="!this.authService.isUserLoggednIn">Login</button>
+    <button class="link-button" (click)="logout()" *ngIf="this.authService.isUserLoggednIn">Logout</button>
   </div>
 </div>

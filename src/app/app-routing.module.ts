@@ -5,10 +5,12 @@ import { LoginComponent } from './login/login.component';
 import { AddQuoteComponent } from './add-quote/add-quote.component';
 
 const routes: Routes = [
-  { path: '', component: QuoteDisplayComponentComponent },
+  { path: '', redirectTo:'quotes-list',pathMatch:'full' },
+  { path: 'quotes-list', component: QuoteDisplayComponentComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'add-quote', component: AddQuoteComponent },
-  { path: '**', component: QuoteDisplayComponentComponent }
+  { path: 'add-quote', component: AddQuoteComponent},
+  { path: 'edit-quote', component: AddQuoteComponent},
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

@@ -1,22 +1,29 @@
+import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  loginForm = new FormGroup({
-    username: new FormControl(''),
-    password: new FormControl(''),
-  });
-  constructor() { }
+  loginForm:FormGroup;
+  constructor(private formBuilder: FormBuilder,private AuthService:AuthService,private router:Router) { }
 
   ngOnInit(): void {
+    this.generateForm();
   }
 
-  onSubmit() {
-   console.log();
+  generateForm(){
+    this.loginForm = this.formBuilder.group({
+      username: [''],
+      password: [''],
+    });
+  }
+  login() {
+    this.AuthService.login(this.loginForm.value);
+    this.router.navigate(['/quotes-list']);
 
   }
 

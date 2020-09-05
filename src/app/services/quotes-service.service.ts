@@ -20,4 +20,8 @@ export class QuotesServiceService {
    deleteQuote(id){
      return this.http.delete(SERVER_URL+'/quotes/'+id);
    }
+
+   updateQuote(newData,oldData){
+     return this.http.patch(SERVER_URL+'/quotes/'+oldData.id,newData);
+   }
   }

@@ -6,12 +6,12 @@ import { AppComponent } from './app.component';
 import { QuoteDisplayComponentComponent } from './quote-display-component/quote-display-component.component';
 import { HeaderComponent } from './header/header.component';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AddQuoteComponent } from './add-quote/add-quote.component';
 
 import { StoreModule } from '@ngrx/store';
-import {quoteReducer} from './state/quotes.reducer';
+import {themeReducer} from './state/theme.reducer';
 import { LoginComponent } from './login/login.component';
 
 @NgModule({
@@ -24,10 +24,11 @@ import { LoginComponent } from './login/login.component';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({count:quoteReducer}),
+    StoreModule.forRoot({theme:themeReducer}),
   ],
   providers: [],
   bootstrap: [AppComponent]

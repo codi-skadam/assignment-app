@@ -1,8 +1,7 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import {QuotesServiceService} from '../services/quotes-service.service'
-import { Observable } from 'rxjs';
-import { Store, select } from '@ngrx/store';
-import { addQuote,editQuote,deleteQuote,getQuote } from '../state/quotes.actions';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-quote-display-component',
@@ -11,10 +10,9 @@ import { addQuote,editQuote,deleteQuote,getQuote } from '../state/quotes.actions
 })
 export class QuoteDisplayComponentComponent implements OnInit {
   quotesList:any;
-  // quotes$: Observable<object>;
-  constructor(private quotesService:QuotesServiceService,private store: Store<{quotes}>) {
-    // this.quotes$ = store.pipe(select('quotes'));
-    //    console.log(this.quotes$);
+
+  constructor(private quotesService:QuotesServiceService, private router:Router,public authService:AuthService) {
+
    }
 
   ngOnInit(): void {
@@ -28,6 +26,10 @@ export class QuoteDisplayComponentComponent implements OnInit {
       }
     })
   }
+
+  trackByFn(index) {
+    return index;
+    }
 
   deleteQuote (id) {
     this.quotesService.deleteQuote(id).subscribe(resp=>{

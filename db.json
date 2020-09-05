@@ -3,17 +3,27 @@
     {
       "id": 1,
       "quote": "You only live once, but if you do it right, once is enough.",
-      "authorName": "-Mae West"
+      "authorName": "Mae West"
     },
     {
       "id": 2,
       "quote": "You have to complete it by today itself",
-      "authorName": "-Mae West"
+      "authorName": "Mae West"
     },
     {
-      "quote": "main tumhara main tumhara raha",
-      "authorName": "mere chanda",
-      "id": 10
+      "quote": "Code is Art Code is Us.",
+      "authorName": "CODITAS",
+      "id": 12
+    },
+    {
+      "quote": "All problems in computer science can be solved by another level of indirection.",
+      "authorName": "David Wheeler",
+      "id": 13
+    },
+    {
+      "quote": "Programs must be written for people to read, and only incidentally for machines to execute.",
+      "authorName": "Harold Abelson, Structure and Interpretation of Computer Programs",
+      "id": 14
     }
   ],
   "users": {

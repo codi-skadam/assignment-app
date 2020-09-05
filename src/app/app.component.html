@@ -1,13 +1,8 @@
-
-<app-header></app-header>
-<div class="content" role="main">
-  <!-- <div class="main">
-    <app-quote-display-component></app-quote-display-component>
+<div [ngClass]="{'light-theme':(theme$|async)==='Light','dark-theme':(theme$|async)==='Dark'}">
+  <app-header></app-header>
+  <div class="content" role="main" >
+    <router-outlet></router-outlet>
   </div>
-  <div class="right">
-    <app-login></app-login>
-    <app-add-quote></app-add-quote>
-  </div> -->
-  <router-outlet></router-outlet>
 </div>
+
 
