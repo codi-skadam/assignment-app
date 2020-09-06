@@ -24,10 +24,23 @@
       "quote": "Programs must be written for people to read, and only incidentally for machines to execute.",
       "authorName": "Harold Abelson, Structure and Interpretation of Computer Programs",
       "id": 14
+    },
+    {
+      "quote": "Thi is my first time ",
+      "authorName": "-shivkant",
+      "id": 16
     }
   ],
-  "users": {
-    "username": "admin",
-    "password": "admin"
-  }
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin"
+    },
+    {
+      "username": "shivkant",
+      "password": "123",
+      "id": 2
+    }
+  ]
 }

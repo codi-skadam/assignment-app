@@ -1,12 +1,13 @@
 <div class="header" role="header">
   <h1 routerLink="/">Quotes Assignment App</h1>
   <div class="top-nav">
-    <label class="theme-label">{{theme$|async}}</label>
-    <label class="toggle-switch">
-      <input type="checkbox" value="{{theme$|async}}" (change)="changeTheme()">
+    <!-- <label class="toggle-switch"> // Converted to lit element not needed anymore
+      <input type="checkbox" value="{{theme$|async}}" (change)="changeTheme(e)">
       <div class="slider"></div>
-    </label>
+    </label> -->
+    <toggle-switch stateName="{{theme$|async}}" (my-event)="changeTheme(e)"></toggle-switch>
     <button class="link-button" routerLink="/add-quote" *ngIf="this.authService.isUserLoggednIn">+ Add Quote</button>
+    <button class="link-button" routerLink="/register" *ngIf="!this.authService.isUserLoggednIn">Register</button>
     <button class="link-button" routerLink="/login" *ngIf="!this.authService.isUserLoggednIn">Login</button>
     <button class="link-button" (click)="logout()" *ngIf="this.authService.isUserLoggednIn">Logout</button>
   </div>

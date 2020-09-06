@@ -10,11 +10,13 @@ import { Router } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
+
 export class HeaderComponent implements OnInit {
 
   theme$: Observable<string>
 
   constructor(public authService:AuthService,private store: Store<{ theme: string }>,private router:Router) {
+   
     this.theme$ = store.pipe(select('theme'));
    }
 
@@ -27,7 +29,9 @@ export class HeaderComponent implements OnInit {
    this.router.navigate(['/quotes-list']);
  }
 
- changeTheme(){
+ changeTheme(e){
+   console.log(e);
+   
   this.store.dispatch(changetheme());
  }
   

@@ -4,9 +4,17 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
+import {ToggleSwitch} from './app/custom-components/toggle-switch';
+
+
+customElements.define('toggle-switch', ToggleSwitch);
+
+
 if (environment.production) {
   enableProdMode();
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
+
+

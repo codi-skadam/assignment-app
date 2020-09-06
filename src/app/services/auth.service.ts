@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { SERVER_URL } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   public isUserLoggednIn:boolean =false;
-  constructor() {
+  constructor(private http: HttpClient) {
     this.isUserLoggednIn = localStorage.getItem('currentUser') ? true : false;
    }
 
@@ -14,6 +16,11 @@ export class AuthService {
       localStorage.setItem('currentUser', JSON.stringify(payload));
       this.isUserLoggednIn = true;
     }
+  }
+
+  register(payload){
+    console.log(payload);
+    return this.http.post(SERVER_URL+'/users',payload);
   }
 
   logout(){

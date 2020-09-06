@@ -1,0 +1,11 @@
+<div class="container-box">
+    <h2 class="text-center mb-10">Registration Form</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="register()">
+      <label>Username: </label>
+      <input type="text" formControlName="username">
+      <label> Password:</label>
+      <input type="password" formControlName="password">
+      <button type="submit" [disabled]="!loginForm.valid">Register</button>
+    </form>
+    </div>
+    

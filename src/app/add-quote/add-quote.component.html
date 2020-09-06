@@ -1,17 +1,19 @@
-  <h2 class="text-center mb-10">
-   <span *ngIf="isEdit">Edit</span>
-   <span *ngIf="!isEdit">Add</span>
-   Quote Form
-  </h2>
-  <form [formGroup]="quoteForm" (ngSubmit)="isEdit?updateQuote():saveQuote()">
-    <label>Quote: </label>
-    <textarea type="text" formControlName="quote"></textarea>
-    <label> Author Name:</label>
-    <input type="text" formControlName="authorName">
-    <button type="submit" [disabled]="!quoteForm.valid">
+  <div class="container-box">
+    <h2 class="text-center mb-10">
       <span *ngIf="isEdit">Edit</span>
       <span *ngIf="!isEdit">Add</span>
-      Quote
-    </button>
-  </form>
+      Quote Form
+     </h2>
+     <form [formGroup]="quoteForm" (ngSubmit)="isEdit?updateQuote():saveQuote()">
+       <label>Quote: </label>
+       <textarea type="text" formControlName="quote"></textarea>
+       <label> Author Name:</label>
+       <input type="text" formControlName="authorName">
+       <button type="submit" [disabled]="!quoteForm.valid">
+         <span *ngIf="isEdit">Edit</span>
+         <span *ngIf="!isEdit">Add</span>
+         Quote
+       </button>
+     </form>
+  </div>
 

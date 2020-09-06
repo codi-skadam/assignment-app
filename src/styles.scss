@@ -24,6 +24,18 @@ $PRIMARY-COLOR:chartreuse;
   $text-color:black;
   $background-color:lightgray;
   $border-color:#eee;
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+label{
+  color: $text-color;
+}
+
   
  .header {
    background-color: $background-color;
@@ -35,8 +47,17 @@ $PRIMARY-COLOR:chartreuse;
   background-color: $background-color;
   color:$text-color;
 }
+.container-box{
+  background-color: $background-color;
+  color:$text-color;
+}
 button{
   color: $text-color;
+}
+
+input[type="text"],textarea,input[type="password"]{
+  color: $text-color;
+  border-bottom:2px solid $border-color;
 }
   
 }
@@ -45,6 +66,17 @@ button{
  $text-color:white;
  $background-color:black;
  $border-color:#eee;
+
+ h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+label{
+  color: $text-color;
+}
 .header {
   background-color: $background-color;
   color: $text-color;
@@ -56,8 +88,18 @@ button{
   color:$text-color;
 }
 
+.container-box{
+  background-color: $background-color;
+  color:$text-color;
+}
+
 button{
   color: $text-color;
+}
+
+input[type="text"],textarea,input[type="password"]{
+  color: $text-color;
+  border-bottom:2px solid $border-color;
 }
 }
 
@@ -95,6 +137,7 @@ button{
   width: 100%;
 }
 
+
 .card {
   border-radius: 4px;
   border: 1px solid #eee;
@@ -109,9 +152,9 @@ button{
   line-height: 24px;
 }
 
-.card-container .card:not(:last-child) {
-  margin-right: 0;
-}
+// .card-container .card:not(:last-child) {
+//   margin-right: 0;
+// }
 
 .card.card-small {
   height: 16px;
@@ -129,7 +172,7 @@ input[type="text"],textarea,input[type="password"]{
   width: 100%;
   padding:2px 0 ;
   font-size: 1rem;
-  border-bottom:2px solid lightgray;
+  background: transparent;
   margin:12px 8px;
   &:focus{
     border:none;
@@ -166,45 +209,7 @@ button{
 }
 
 
-.toggle-switch {
-  height: 26px;
-  width: 52px;
-  border-radius: 15px;
-  display: inline-block;
-  position: relative;
-  input {
-    display: none;
-    &:checked + .slider {
-      background-color: $PRIMARY-COLOR;
-    }
-    &:checked + .slider::after {
-      -webkit-transform: translateX(26px);
-      -ms-transform: translateX(26px);
-      transform: translateX(26px);
-    }
-  }
-  .slider {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background-color: grey;
-    border-radius: 15px;
-    transition: 0.5s;
-    &::after {
-      position: absolute;
-      content: '';
-      height: 18px;
-      width: 18px;
-      border-radius: 15px;
-      background-color: white;
-      left: 4px;
-      bottom: 4px;
-      transition: 0.5s;
-    }
-  }
-}
+
 
 .mb-10{
   margin-bottom: 10%;

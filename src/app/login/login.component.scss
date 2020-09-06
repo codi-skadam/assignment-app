@@ -1,9 +1,8 @@
 :host{
-  display: flex;
-  flex-direction: column;
-  margin-top: 10%;
-  height: 100%;
+  display: block;
   width: 40%;
-  padding:5%;
-  border:2px solid lightgray;
+  margin-top:5%;
+  .container-box{
+    padding: 5%;
+  }
 }

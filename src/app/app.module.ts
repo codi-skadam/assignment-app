@@ -13,6 +13,7 @@ import { AddQuoteComponent } from './add-quote/add-quote.component';
 import { StoreModule } from '@ngrx/store';
 import {themeReducer} from './state/theme.reducer';
 import { LoginComponent } from './login/login.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LoginComponent } from './login/login.component';
     QuoteDisplayComponentComponent,
     HeaderComponent,
     AddQuoteComponent,
-    LoginComponent
+    LoginComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
