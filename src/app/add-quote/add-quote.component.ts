@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import {QuotesServiceService} from '../services/quotes-service.service'
 import {Router,ActivatedRoute, ActivatedRouteSnapshot} from "@angular/router"
+import {IQuotes} from '../models/quotes'
 
 @Component({
   selector: 'app-add-quote',
@@ -12,7 +13,8 @@ export class AddQuoteComponent implements OnInit {
 
   quoteForm:FormGroup;
   isEdit:boolean=false;
-  quoteData:any;
+  quoteData:IQuotes;
+
   constructor(private formBuilder: FormBuilder,private quotesService:QuotesServiceService,private router: Router,public activatedRoute: ActivatedRoute) {
     this.generateForm();
   }
@@ -37,6 +39,8 @@ export class AddQuoteComponent implements OnInit {
       if(resp){
         this.router.navigate(['/']);
       }
+    },(error)=>{
+      console.log(error);
     })
   }
 
@@ -45,6 +49,8 @@ export class AddQuoteComponent implements OnInit {
       if(resp){
         this.router.navigate(['quotes-list']);
       }
+    },(error)=>{
+      console.log(error);
     })
   }
 

@@ -2,6 +2,7 @@ import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import {IUser} from '../models/user';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -21,10 +22,9 @@ export class LoginComponent implements OnInit {
       password: [''],
     });
   }
+
   login() {
     this.AuthService.login(this.loginForm.value);
-    this.router.navigate(['/quotes-list']);
-
   }
 
 }

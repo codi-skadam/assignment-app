@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from './../services/auth.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import {IUser} from '../models/user';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -23,8 +24,9 @@ export class RegistrationComponent implements OnInit {
   }
   register() {
     this.AuthService.register(this.loginForm.value).subscribe(resp=>{
-      console.log(resp);
       this.router.navigate(['/login']);
+    },(error)=>{
+      console.log(error);
     });
   }
 

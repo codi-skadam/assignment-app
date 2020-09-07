@@ -36,6 +36,8 @@ export class QuoteDisplayComponentComponent implements OnInit {
       if(resp){
         this.getQuotes();
       }
+    },(error)=>{
+      console.log(error);
     })
   }
 

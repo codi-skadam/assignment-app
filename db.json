@@ -6,11 +6,6 @@
       "authorName": "Mae West"
     },
     {
-      "id": 2,
-      "quote": "You have to complete it by today itself",
-      "authorName": "Mae West"
-    },
-    {
       "quote": "Code is Art Code is Us.",
       "authorName": "CODITAS",
       "id": 12
@@ -29,6 +24,11 @@
       "quote": "Thi is my first time ",
       "authorName": "-shivkant",
       "id": 16
+    },
+    {
+      "quote": "this is new ",
+      "authorName": "new",
+      "id": 17
     }
   ],
   "users": [
@@ -41,6 +41,16 @@
       "username": "shivkant",
       "password": "123",
       "id": 2
+    },
+    {
+      "username": "shivkant",
+      "password": "new",
+      "id": 3
+    },
+    {
+      "username": "ravi",
+      "password": "ravi",
+      "id": 4
     }
   ]
 }

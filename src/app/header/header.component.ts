@@ -16,7 +16,6 @@ export class HeaderComponent implements OnInit {
   theme$: Observable<string>
 
   constructor(public authService:AuthService,private store: Store<{ theme: string }>,private router:Router) {
-   
     this.theme$ = store.pipe(select('theme'));
    }
 
@@ -29,9 +28,7 @@ export class HeaderComponent implements OnInit {
    this.router.navigate(['/quotes-list']);
  }
 
- changeTheme(e){
-   console.log(e);
-   
+ changeTheme(){
   this.store.dispatch(changetheme());
  }
   

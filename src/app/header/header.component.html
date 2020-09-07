@@ -5,7 +5,7 @@
       <input type="checkbox" value="{{theme$|async}}" (change)="changeTheme(e)">
       <div class="slider"></div>
     </label> -->
-    <toggle-switch stateName="{{theme$|async}}" (my-event)="changeTheme(e)"></toggle-switch>
+    <toggle-switch stateName="{{theme$|async}}" (my-event)="changeTheme()"></toggle-switch>
     <button class="link-button" routerLink="/add-quote" *ngIf="this.authService.isUserLoggednIn">+ Add Quote</button>
     <button class="link-button" routerLink="/register" *ngIf="!this.authService.isUserLoggednIn">Register</button>
     <button class="link-button" routerLink="/login" *ngIf="!this.authService.isUserLoggednIn">Login</button>
