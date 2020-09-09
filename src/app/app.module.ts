@@ -14,6 +14,7 @@ import { StoreModule } from '@ngrx/store';
 import {themeReducer} from './state/theme.reducer';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { SnackBarComponent } from './snack-bar/snack-bar.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RegistrationComponent } from './registration/registration.component';
     HeaderComponent,
     AddQuoteComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    SnackBarComponent
   ],
   imports: [
     BrowserModule,
