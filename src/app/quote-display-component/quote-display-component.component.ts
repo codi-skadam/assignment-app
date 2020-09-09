@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import {QuotesServiceService} from '../services/quotes-service.service'
 import { AuthService } from '../services/auth.service';
@@ -11,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 export class QuoteDisplayComponentComponent implements OnInit {
   quotesList:any;
 
-  constructor(private quotesService:QuotesServiceService, private router:Router,public authService:AuthService) {
+  constructor(private quotesService:QuotesServiceService,public authService:AuthService) {
 
    }
 

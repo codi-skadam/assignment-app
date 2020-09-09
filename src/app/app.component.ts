@@ -12,13 +12,8 @@ export class AppComponent {
   theme$: Observable<string>
   constructor(private stateStore: Store<{ theme: string }>){
     this.theme$ = stateStore.pipe(select('theme'));
-    console.log(this.theme$);
   }
 
   ngOnInit(){
-    setTimeout(() => {
-      console.log(this.theme$);
-      
-    }, 10000);
   }
 }

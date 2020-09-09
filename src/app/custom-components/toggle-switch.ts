@@ -78,10 +78,7 @@ export class ToggleSwitch extends LitElement {
         `;
       }
       clickHandler(event) {
-        console.log(event.target);
-        this.state = !this.state;
-        console.log(this.state);
-        
+        this.state = !this.state;        
         let myEvent = new CustomEvent('my-event', { 
             detail: { message: 'my-event happened.' },
             bubbles: true, 

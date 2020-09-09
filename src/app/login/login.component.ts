@@ -2,7 +2,6 @@ import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import {IUser} from '../models/user';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,6 +9,7 @@ import {IUser} from '../models/user';
 })
 export class LoginComponent implements OnInit {
   loginForm:FormGroup;
+ 
   constructor(private formBuilder: FormBuilder,private AuthService:AuthService,private router:Router) { }
 
   ngOnInit(): void {

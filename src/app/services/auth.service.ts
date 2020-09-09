@@ -29,7 +29,6 @@ export class AuthService {
   }
 
   register(payload){
-    console.log(payload);
     return this.http.post(SERVER_URL+'/users',payload);
   }
 
