@@ -71,8 +71,8 @@
     "injectables": [
         {
             "name": "AuthService",
-            "id": "injectable-AuthService-6cffc7aa94a4f50d5cac74ed8dc9f1a6",
-            "file": "src/app/services/auth.service.ts",
+            "id": "injectable-AuthService-5ec81df5f3caed65c8782169aaec7b4d",
+            "file": "src/app/auth/auth.service.ts",
             "properties": [
                 {
                     "name": "isUserLoggednIn",
@@ -88,12 +88,12 @@
             ],
             "methods": [
                 {
-                    "name": "getLoggedInUser",
+                    "name": "isUserAuthenticated",
                     "args": [],
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 41
+                    "line": 40
                 },
                 {
                     "name": "login",
@@ -123,7 +123,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 36
+                    "line": 35
                 },
                 {
                     "name": "register",
@@ -149,7 +149,7 @@
                 }
             ],
             "description": "",
-            "sourceCode": "import { Injectable } from '@angular/core';\nimport { HttpClient } from '@angular/common/http';\nimport { SERVER_URL } from 'src/environments/environment';\nimport { Router } from '@angular/router';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class AuthService {\n  public isUserLoggednIn:boolean =false;\n  constructor(private http: HttpClient,private router:Router) {\n    this.isUserLoggednIn = localStorage.getItem('currentUser') ? true : false;\n   }\n\n  login(payload){\n    if(payload){\n      this.http.get(SERVER_URL+'/users?username='+payload.username).subscribe(resp=>{\n        if(resp && resp[0].password === payload.password){\n          localStorage.setItem('currentUser', JSON.stringify(payload));\n          this.router.navigate(['/quotes-list']);\n          this.isUserLoggednIn = true;\n        }else {\n          this.isUserLoggednIn = false;\n        }\n      },(error)=>{\n        console.log(error);\n      });     \n    }\n  }\n\n  register(payload){\n    console.log(payload);\n    return this.http.post(SERVER_URL+'/users',payload);\n  }\n\n  logout(){\n    localStorage.removeItem('currentUser');\n    this.isUserLoggednIn = false;\n  }\n\n  getLoggedInUser() {\n   return this.isUserLoggednIn;\n  }\n}\n",
+            "sourceCode": "import { Injectable } from '@angular/core';\nimport { HttpClient } from '@angular/common/http';\nimport { SERVER_URL } from 'src/environments/environment';\nimport { Router } from '@angular/router';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class AuthService {\n  public isUserLoggednIn:boolean = false;\n  constructor(private http: HttpClient,private router:Router) {\n    this.isUserLoggednIn = localStorage.getItem('currentUser') ? true : false;\n   }\n\n  login(payload){\n    if(payload){\n      this.http.get(SERVER_URL+'/users?username='+payload.username).subscribe(resp=>{\n        if(resp && resp[0].password === payload.password){\n          localStorage.setItem('currentUser', JSON.stringify(payload));\n          this.router.navigate(['/quotes-list']);\n          this.isUserLoggednIn = true;\n        }else {\n          this.isUserLoggednIn = false;\n        }\n      },(error)=>{\n        console.log(error);\n      });     \n    }\n  }\n\n  register(payload){\n    return this.http.post(SERVER_URL+'/users',payload);\n  }\n\n  logout(){\n    localStorage.removeItem('currentUser');\n    this.isUserLoggednIn = false;\n  }\n\n  isUserAuthenticated() {\n   return this.isUserLoggednIn;\n  }\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -298,6 +298,81 @@
                 ]
             },
             "type": "injectable"
+        },
+        {
+            "name": "SnackbarService",
+            "id": "injectable-SnackbarService-68e0e0e2f24db78b3e5203a6477131a5",
+            "file": "src/app/services/snackbar.service.ts",
+            "properties": [
+                {
+                    "name": "isSnackbarActive",
+                    "defaultValue": "false",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                },
+                {
+                    "name": "text",
+                    "defaultValue": "''",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 8
+                },
+                {
+                    "name": "type",
+                    "defaultValue": "''",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 9
+                }
+            ],
+            "methods": [
+                {
+                    "name": "setSnackBar",
+                    "args": [
+                        {
+                            "name": "message",
+                            "type": ""
+                        },
+                        {
+                            "name": "type",
+                            "type": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 12,
+                    "jsdoctags": [
+                        {
+                            "name": "message",
+                            "type": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "type",
+                            "type": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "description": "",
+            "sourceCode": "import { Injectable } from '@angular/core';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class SnackbarService {\n\n  text:string='';\n  type:string='';\n  isSnackbarActive:boolean=false;\n  constructor() { }\n  setSnackBar(message,type){\n    this.text = message;\n    this.type = type;\n    this.isSnackbarActive = true;\n    setTimeout(() => {\n      this.text = '';\n      this.type = '';\n      this.isSnackbarActive = false;\n    }, 5000);\n  }\n}\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 10
+            },
+            "type": "injectable"
         }
     ],
     "classes": [
@@ -334,10 +409,10 @@
         },
         {
             "name": "ToggleSwitch",
-            "id": "class-ToggleSwitch-d948f3e8b461bdba93820ff7a69136bc",
+            "id": "class-ToggleSwitch-984bae370c09f242bc88fe0ab714cbe1",
             "file": "src/app/custom-components/toggle-switch.ts",
             "type": "class",
-            "sourceCode": "import { LitElement,html,css } from 'lit-element';\r\n\r\n// Extend the LitElement base class\r\n// export the class, so it can be imported where it is needed\r\nexport class ToggleSwitch extends LitElement {\r\n  stateName: string;\r\n  state: boolean;\r\n    static get properties() {\r\n        return {\r\n          stateName: { type: String },\r\n          state: {type:Boolean}\r\n        };\r\n      }\r\n      static get styles() {\r\n        return css`\r\n        :host{\r\n            display:flex;\r\n            align-items:center;\r\n        }\r\n        .state-name{\r\n            margin-right:8px;\r\n            display: inline-block;\r\n            position: relative;\r\n        }\r\n        .toggle-switch {\r\n            height: 26px;\r\n            width: 52px;\r\n            border-radius: 15px;\r\n            display: inline-block;\r\n            position: relative;\r\n       }\r\n        .toggle-switch input {\r\n            display: none;\r\n       }\r\n        .toggle-switch input:checked + .slider {\r\n            background-color: chartreuse;\r\n       }\r\n        .toggle-switch input:checked + .slider::after {\r\n            -webkit-transform: translateX(26px);\r\n            -ms-transform: translateX(26px);\r\n            transform: translateX(26px);\r\n       }\r\n        .toggle-switch .slider {\r\n            position: absolute;\r\n            left: 0;\r\n            top: 0;\r\n            right: 0;\r\n            bottom: 0;\r\n            background-color: grey;\r\n            border-radius: 15px;\r\n            transition: 0.5s;\r\n       }\r\n        .toggle-switch .slider::after {\r\n            position: absolute;\r\n            content: '';\r\n            height: 18px;\r\n            width: 18px;\r\n            border-radius: 15px;\r\n            background-color: white;\r\n            left: 4px;\r\n            bottom: 4px;\r\n            transition: 0.5s;\r\n       }       \r\n        `;\r\n      }\r\n      constructor() {\r\n        super();\r\n        this.state = false;\r\n        this.stateName = '';\r\n      }\r\n      render() {\r\n        return html`\r\n        <label class=\"state-name\">${this.stateName}</label>\r\n        <label class=\"toggle-switch\">\r\n            <input type=\"checkbox\" value=\"${this.stateName}\" @click=${this.clickHandler}>\r\n            <div class=\"slider\"></div>\r\n        </label>\r\n        `;\r\n      }\r\n      clickHandler(event) {\r\n        console.log(event.target);\r\n        this.state = !this.state;\r\n        console.log(this.state);\r\n        \r\n        let myEvent = new CustomEvent('my-event', { \r\n            detail: { message: 'my-event happened.' },\r\n            bubbles: true, \r\n            composed: true });\r\n          this.dispatchEvent(myEvent);\r\n      }\r\n}\r\n",
+            "sourceCode": "import { LitElement,html,css } from 'lit-element';\r\n\r\n// Extend the LitElement base class\r\n// export the class, so it can be imported where it is needed\r\nexport class ToggleSwitch extends LitElement {\r\n  stateName: string;\r\n  state: boolean;\r\n    static get properties() {\r\n        return {\r\n          stateName: { type: String },\r\n          state: {type:Boolean}\r\n        };\r\n      }\r\n      static get styles() {\r\n        return css`\r\n        :host{\r\n            display:flex;\r\n            align-items:center;\r\n        }\r\n        .state-name{\r\n            margin-right:8px;\r\n            display: inline-block;\r\n            position: relative;\r\n        }\r\n        .toggle-switch {\r\n            height: 26px;\r\n            width: 52px;\r\n            border-radius: 15px;\r\n            display: inline-block;\r\n            position: relative;\r\n       }\r\n        .toggle-switch input {\r\n            display: none;\r\n       }\r\n        .toggle-switch input:checked + .slider {\r\n            background-color: chartreuse;\r\n       }\r\n        .toggle-switch input:checked + .slider::after {\r\n            -webkit-transform: translateX(26px);\r\n            -ms-transform: translateX(26px);\r\n            transform: translateX(26px);\r\n       }\r\n        .toggle-switch .slider {\r\n            position: absolute;\r\n            left: 0;\r\n            top: 0;\r\n            right: 0;\r\n            bottom: 0;\r\n            background-color: grey;\r\n            border-radius: 15px;\r\n            transition: 0.5s;\r\n       }\r\n        .toggle-switch .slider::after {\r\n            position: absolute;\r\n            content: '';\r\n            height: 18px;\r\n            width: 18px;\r\n            border-radius: 15px;\r\n            background-color: white;\r\n            left: 4px;\r\n            bottom: 4px;\r\n            transition: 0.5s;\r\n       }       \r\n        `;\r\n      }\r\n      constructor() {\r\n        super();\r\n        this.state = false;\r\n        this.stateName = '';\r\n      }\r\n      render() {\r\n        return html`\r\n        <label class=\"state-name\">${this.stateName}</label>\r\n        <label class=\"toggle-switch\">\r\n            <input type=\"checkbox\" value=\"${this.stateName}\" @click=${this.clickHandler}>\r\n            <div class=\"slider\"></div>\r\n        </label>\r\n        `;\r\n      }\r\n      clickHandler(event) {\r\n        this.state = !this.state;        \r\n        let myEvent = new CustomEvent('my-event', { \r\n            detail: { message: 'my-event happened.' },\r\n            bubbles: true, \r\n            composed: true });\r\n          this.dispatchEvent(myEvent);\r\n      }\r\n}\r\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -424,7 +499,7 @@
     "components": [
         {
             "name": "AddQuoteComponent",
-            "id": "component-AddQuoteComponent-c9a0c79419158a132c4e6e0fffe6506a",
+            "id": "component-AddQuoteComponent-6e546e20637a828d83762fa46845be7b",
             "file": "src/app/add-quote/add-quote.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -448,7 +523,7 @@
                     "type": "ActivatedRoute",
                     "optional": false,
                     "description": "",
-                    "line": 18,
+                    "line": 23,
                     "modifierKind": [
                         114
                     ]
@@ -459,21 +534,21 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "",
-                    "line": 15
+                    "line": 16
                 },
                 {
                     "name": "quoteData",
                     "type": "IQuotes",
                     "optional": false,
                     "description": "",
-                    "line": 16
+                    "line": 17
                 },
                 {
                     "name": "quoteForm",
                     "type": "FormGroup",
                     "optional": false,
                     "description": "",
-                    "line": 14
+                    "line": 15
                 }
             ],
             "methodsClass": [
@@ -483,7 +558,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 30
+                    "line": 37
                 },
                 {
                     "name": "ngOnDestroy",
@@ -491,7 +566,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 57
+                    "line": 66
                 },
                 {
                     "name": "ngOnInit",
@@ -499,7 +574,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 22
+                    "line": 29
                 },
                 {
                     "name": "saveQuote",
@@ -507,7 +582,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 37
+                    "line": 44
                 },
                 {
                     "name": "updateQuote",
@@ -515,7 +590,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 47
+                    "line": 55
                 }
             ],
             "hostBindings": [],
@@ -523,11 +598,11 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { FormGroup, FormControl, FormBuilder } from '@angular/forms';\nimport {QuotesServiceService} from '../services/quotes-service.service'\nimport {Router,ActivatedRoute, ActivatedRouteSnapshot} from \"@angular/router\"\nimport {IQuotes} from '../models/quotes'\n\n@Component({\n  selector: 'app-add-quote',\n  templateUrl: './add-quote.component.html',\n  styleUrls: ['./add-quote.component.scss']\n})\nexport class AddQuoteComponent implements OnInit {\n\n  quoteForm:FormGroup;\n  isEdit:boolean=false;\n  quoteData:IQuotes;\n\n  constructor(private formBuilder: FormBuilder,private quotesService:QuotesServiceService,private router: Router,public activatedRoute: ActivatedRoute) {\n    this.generateForm();\n  }\n\n  ngOnInit(): void {\n    if (this.router.url === '/edit-quote'){\n      this.isEdit = true;\n      this.quoteData = history.state;\n      this.quoteForm.patchValue(this.quoteData);\n    }\n  }\n\n  generateForm(){\n    this.quoteForm = this.formBuilder.group({\n      quote: [''],\n      authorName: [''],\n    });\n  }\n\n  saveQuote() {\n    this.quotesService.addQuote(this.quoteForm.value).subscribe(resp=>{\n      if(resp){\n        this.router.navigate(['/']);\n      }\n    },(error)=>{\n      console.log(error);\n    })\n  }\n\n  updateQuote () {\n    this.quotesService.updateQuote(this.quoteForm.value,this.quoteData).subscribe(resp=>{\n      if(resp){\n        this.router.navigate(['quotes-list']);\n      }\n    },(error)=>{\n      console.log(error);\n    })\n  }\n\n  ngOnDestroy(): void {\n  this.isEdit = false;\n  this.quoteForm.reset();\n  }\n\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { FormGroup, FormControl, FormBuilder } from '@angular/forms';\nimport {QuotesServiceService} from '../services/quotes-service.service'\nimport {SnackbarService} from '../services/snackbar.service'\nimport {Router,ActivatedRoute, ActivatedRouteSnapshot} from \"@angular/router\"\nimport {IQuotes} from '../models/quotes'\n\n@Component({\n  selector: 'app-add-quote',\n  templateUrl: './add-quote.component.html',\n  styleUrls: ['./add-quote.component.scss']\n})\nexport class AddQuoteComponent implements OnInit {\n\n  quoteForm:FormGroup;\n  isEdit:boolean=false;\n  quoteData:IQuotes;\n\n  constructor(\n    private formBuilder: FormBuilder,\n    private quotesService:QuotesServiceService,\n    private router: Router,\n    public activatedRoute: ActivatedRoute,\n    private snackbarService:SnackbarService\n    ) {\n    this.generateForm();\n  }\n\n  ngOnInit(): void {\n    if (this.router.url === '/edit-quote'){\n      this.isEdit = true;\n      this.quoteData = history.state;\n      this.quoteForm.patchValue(this.quoteData);\n    }\n  }\n\n  generateForm(){\n    this.quoteForm = this.formBuilder.group({\n      quote: [''],\n      authorName: [''],\n    });\n  }\n\n  saveQuote() {\n    this.quotesService.addQuote({...this.quoteForm.value}).subscribe(resp=>{\n      if(resp){\n        this.snackbarService.setSnackBar('Quote is Added Successfully','success');\n        this.router.navigate(['/']);\n      }\n    },(error)=>{\n      console.log(error);\n    })\n  }\n\n  updateQuote () {\n    this.quotesService.updateQuote(this.quoteForm.value,this.quoteData).subscribe(resp=>{\n      if(resp){\n        this.snackbarService.setSnackBar('Quote is Updated Successfully','success');\n        this.router.navigate(['quotes-list']);\n      }\n    },(error)=>{\n      console.log(error);\n    })\n  }\n\n  ngOnDestroy(): void {\n  this.isEdit = false;\n  this.quoteForm.reset();\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ":host{\r\n  display: block;\r\n  width: 50%;\r\n  margin-top:5%;\r\n  .container-box{\r\n    padding: 5%;\r\n  }\r\n}",
+                    "data": ":host{\r\n  display: block;\r\n  width: 50%;\r\n  margin-top:5%;\r\n  .container-box{\r\n    padding: 5%;\r\n    display: grid;\r\n  }\r\n}",
                     "styleUrl": "./add-quote.component.scss"
                 }
             ],
@@ -551,9 +626,13 @@
                     {
                         "name": "activatedRoute",
                         "type": "ActivatedRoute"
+                    },
+                    {
+                        "name": "snackbarService",
+                        "type": "SnackbarService"
                     }
                 ],
-                "line": 16,
+                "line": 17,
                 "jsdoctags": [
                     {
                         "name": "formBuilder",
@@ -582,6 +661,13 @@
                         "tagName": {
                             "text": "param"
                         }
+                    },
+                    {
+                        "name": "snackbarService",
+                        "type": "SnackbarService",
+                        "tagName": {
+                            "text": "param"
+                        }
                     }
                 ]
             },
@@ -592,7 +678,7 @@
         },
         {
             "name": "AppComponent",
-            "id": "component-AppComponent-856be06a0a583512182a1d42f05d2455",
+            "id": "component-AppComponent-d5cc3ac3c3dbf588fb54cef35420c8af",
             "file": "src/app/app.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -612,11 +698,21 @@
             "outputsClass": [],
             "propertiesClass": [
                 {
+                    "name": "snackbarService",
+                    "type": "SnackbarService",
+                    "optional": false,
+                    "description": "",
+                    "line": 14,
+                    "modifierKind": [
+                        114
+                    ]
+                },
+                {
                     "name": "theme$",
                     "type": "Observable<string>",
                     "optional": false,
                     "description": "",
-                    "line": 12
+                    "line": 13
                 }
             ],
             "methodsClass": [
@@ -634,7 +730,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\nimport { Store, select } from '@ngrx/store';\nimport { Observable } from 'rxjs';\n\n\n@Component({\n  selector: 'app-root',\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.scss']\n})\nexport class AppComponent {\n  theme$: Observable<string>\n  constructor(private stateStore: Store<{ theme: string }>){\n    this.theme$ = stateStore.pipe(select('theme'));\n  }\n\n  ngOnInit(){\n  }\n}\n",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { Store, select } from '@ngrx/store';\nimport { Observable } from 'rxjs';\nimport { SnackbarService } from './services/snackbar.service';\n\n\n@Component({\n  selector: 'app-root',\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.scss']\n})\nexport class AppComponent {\n  theme$: Observable<string>\n  constructor(private stateStore: Store<{ theme: string }>,public snackbarService:SnackbarService){\n    this.theme$ = stateStore.select('theme');\n  }\n  ngOnInit(){\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -650,9 +746,13 @@
                     {
                         "name": "stateStore",
                         "type": "Store<literal type>"
+                    },
+                    {
+                        "name": "snackbarService",
+                        "type": "SnackbarService"
                     }
                 ],
-                "line": 12,
+                "line": 13,
                 "jsdoctags": [
                     {
                         "name": "stateStore",
@@ -660,157 +760,90 @@
                         "tagName": {
                             "text": "param"
                         }
+                    },
+                    {
+                        "name": "snackbarService",
+                        "type": "SnackbarService",
+                        "tagName": {
+                            "text": "param"
+                        }
                     }
                 ]
             },
-            "templateData": "<div [ngClass]=\"{'light-theme':(theme$|async)==='Light','dark-theme':(theme$|async)==='Dark'}\">\n  <app-header></app-header>\n  <div class=\"content\" role=\"main\" >\n    <router-outlet></router-outlet>\n  </div>\n</div>\n\n\n"
+            "templateData": "<div [ngClass]=\"{'light-theme':(theme$|async)==='Light','dark-theme':(theme$|async)==='Dark'}\">\n  <app-header></app-header>\n  <div class=\"content\" role=\"main\" >\n    <router-outlet></router-outlet>\n    <ng-container  *ngIf=\"this.snackbarService.isSnackbarActive\">\n      <app-snack-bar text=\"{{this.snackbarService.text}}\" type=\"{{this.snackbarService.type}}\"></app-snack-bar>\n    </ng-container>\n  </div>\n</div>\n\n\n"
         },
         {
-            "name": "ButtonComponent",
-            "id": "component-ButtonComponent-642c6c4e474cd5a0ac760dfda26b2fc9",
-            "file": "src/stories/button.component.ts",
+            "name": "CustomButtonComponent",
+            "id": "component-CustomButtonComponent-8abad5b5528a3f0fcb427ed9475bf50b",
+            "file": "src/app/common-components/custom-button/custom-button.component.ts",
             "encapsulation": [],
             "entryComponents": [],
             "inputs": [],
             "outputs": [],
             "providers": [],
-            "selector": "storybook-button",
+            "selector": "app-custom-button",
             "styleUrls": [
-                "./button.css"
+                "./custom-button.component.scss"
             ],
             "styles": [],
-            "template": "<button   type=\"button\"\n   (click)=\"onClick.emit($event)\"\n   [ngClass]=\"classes\"\n   [ngStyle]=\"{ 'background-color': backgroundColor }\"\n >\n   {{ label }}\n </button>",
-            "templateUrl": [],
+            "templateUrl": [
+                "./custom-button.component.html"
+            ],
             "viewProviders": [],
             "inputsClass": [
                 {
-                    "name": "backgroundColor",
-                    "description": "<p>What background color to use</p>\n",
-                    "line": 26,
+                    "name": "text",
+                    "defaultValue": "''",
+                    "line": 10,
                     "type": "string"
                 },
                 {
-                    "name": "label",
-                    "defaultValue": "'Button'",
-                    "description": "<p>Button contents</p>\n",
-                    "line": 40
-                },
-                {
-                    "name": "primary",
-                    "defaultValue": "false",
-                    "description": "<p>Is this the principal call to action on the page?</p>\n",
-                    "line": 20
-                },
-                {
-                    "name": "size",
-                    "defaultValue": "'medium'",
-                    "description": "<p>How large should the button be?</p>\n",
-                    "line": 32,
-                    "type": "\"small\" | \"medium\" | \"large\""
+                    "name": "type",
+                    "defaultValue": "''",
+                    "line": 11,
+                    "type": "string"
                 }
             ],
-            "outputsClass": [
-                {
-                    "name": "onClick",
-                    "defaultValue": "new EventEmitter<Event>()",
-                    "description": "<p>Optional click handler</p>\n",
-                    "line": 46,
-                    "type": "EventEmitter"
-                }
-            ],
+            "outputsClass": [],
             "propertiesClass": [],
-            "methodsClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 15
+                }
+            ],
             "hostBindings": [],
             "hostListeners": [],
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, Input, Output, EventEmitter } from '@angular/core';\n\n@Component({\n  selector: 'storybook-button',\n  template: ` <button\n    type=\"button\"\n    (click)=\"onClick.emit($event)\"\n    [ngClass]=\"classes\"\n    [ngStyle]=\"{ 'background-color': backgroundColor }\"\n  >\n    {{ label }}\n  </button>`,\n  styleUrls: ['./button.css'],\n})\nexport default class ButtonComponent {\n  /**\n   * Is this the principal call to action on the page?\n   */\n  @Input()\n  primary = false;\n\n  /**\n   * What background color to use\n   */\n  @Input()\n  backgroundColor?: string;\n\n  /**\n   * How large should the button be?\n   */\n  @Input()\n  size: 'small' | 'medium' | 'large' = 'medium';\n\n  /**\n   * Button contents\n   *\n   * @required\n   */\n  @Input()\n  label = 'Button';\n\n  /**\n   * Optional click handler\n   */\n  @Output()\n  onClick = new EventEmitter<Event>();\n\n  public get classes(): string[] {\n    const mode = this.primary ? 'storybook-button--primary' : 'storybook-button--secondary';\n\n    return ['storybook-button', `storybook-button--${this.size}`, mode];\n  }\n}\n",
+            "sourceCode": "import { Component, OnInit, Input } from '@angular/core';\n\n@Component({\n  selector: 'app-custom-button',\n  templateUrl: './custom-button.component.html',\n  styleUrls: ['./custom-button.component.scss']\n})\nexport class CustomButtonComponent implements OnInit {\n\n  @Input() text:string='';\n  @Input() type:string='';\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ".storybook-button {\n  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;\n  font-weight: 700;\n  border: 0;\n  border-radius: 3em;\n  cursor: pointer;\n  display: inline-block;\n  line-height: 1;\n}\n.storybook-button--primary {\n  color: white;\n  background-color: #1ea7fd;\n}\n.storybook-button--secondary {\n  color: #333;\n  background-color: transparent;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;\n}\n.storybook-button--small {\n  font-size: 12px;\n  padding: 10px 16px;\n}\n.storybook-button--medium {\n  font-size: 14px;\n  padding: 11px 20px;\n}\n.storybook-button--large {\n  font-size: 16px;\n  padding: 12px 24px;\n}\n",
-                    "styleUrl": "./button.css"
+                    "data": ":host{\r\n    display: inline-block;\r\n    button{\r\n        padding: 8px 16px;\r\n        border: none;\r\n        outline: none;\r\n        font-size: 1rem;\r\n        font-weight: bold;\r\n        cursor: pointer;\r\n    }\r\n    .default-btn{\r\n        background: lightgray;\r\n    }\r\n    .link-button{\r\n        background: transparent;\r\n    }\r\n    .primary-btn{\r\n        background-color: chartreuse;\r\n    }\r\n    .danger-btn{\r\n        background: red;\r\n    }\r\n}",
+                    "styleUrl": "./custom-button.component.scss"
                 }
             ],
             "stylesData": "",
-            "accessors": {
-                "classes": {
-                    "name": "classes",
-                    "getSignature": {
-                        "name": "classes",
-                        "type": "[]",
-                        "returnType": "string[]",
-                        "line": 48
-                    }
-                }
-            }
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 11
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<button \n[ngClass]=\"{'default-btn':type==='default',\n'link-button':type==='link',\n'primary-btn':type==='primary',\n'danger-btn':type==='danger'}\"\n>{{text}}</button>"
         },
         {
             "name": "HeaderComponent",
-            "id": "component-HeaderComponent-246e2a69dc126a3bd76c6328dd3b93e2",
-            "file": "src/stories/header.component.ts",
-            "encapsulation": [],
-            "entryComponents": [],
-            "inputs": [],
-            "outputs": [],
-            "providers": [],
-            "selector": "storybook-header",
-            "styleUrls": [
-                "./header.css"
-            ],
-            "styles": [],
-            "template": "<header>    <div class=\"wrapper\">\n      <div>\n        <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" xmlns=\"http://www.w3.org/2000/svg\">\n          <g fill=\"none\" fillRule=\"evenodd\">\n            <path\n              d=\"M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z\"\n              fill=\"#FFF\"\n            />\n            <path\n              d=\"M5.3 10.6l10.4 6v11.1l-10.4-6v-11zm11.4-6.2l9.7 5.5-9.7 5.6V4.4z\"\n              fill=\"#555AB9\"\n            />\n            <path\n              d=\"M27.2 10.6v11.2l-10.5 6V16.5l10.5-6zM15.7 4.4v11L6 10l9.7-5.5z\"\n              fill=\"#91BAF8\"\n            />\n          </g>\n        </svg>\n        <h1>Acme</h1>\n      </div>\n      <div>\n        <storybook-button\n          *ngIf=\"user\"\n          size=\"small\"\n          (onClick)=\"onLogout.emit($event)\"\n          label=\"Log out\"\n        ></storybook-button>\n        <storybook-button\n          *ngIf=\"!user\"\n          size=\"small\"\n          (onClick)=\"onLogin.emit($event)\"\n          label=\"Log in\"\n        ></storybook-button>\n        <storybook-button\n          *ngIf=\"!user\"\n          primary\n          size=\"small\"\n          (onClick)=\"onCreateAccount.emit($event)\"\n          label=\"Sign up\"\n        ></storybook-button>\n      </div>\n    </div>\n  </header>",
-            "templateUrl": [],
-            "viewProviders": [],
-            "inputsClass": [
-                {
-                    "name": "user",
-                    "defaultValue": "null",
-                    "line": 53,
-                    "type": "unknown"
-                }
-            ],
-            "outputsClass": [
-                {
-                    "name": "onCreateAccount",
-                    "defaultValue": "new EventEmitter<Event>()",
-                    "line": 62,
-                    "type": "EventEmitter"
-                },
-                {
-                    "name": "onLogin",
-                    "defaultValue": "new EventEmitter<Event>()",
-                    "line": 56,
-                    "type": "EventEmitter"
-                },
-                {
-                    "name": "onLogout",
-                    "defaultValue": "new EventEmitter<Event>()",
-                    "line": 59,
-                    "type": "EventEmitter"
-                }
-            ],
-            "propertiesClass": [],
-            "methodsClass": [],
-            "hostBindings": [],
-            "hostListeners": [],
-            "description": "",
-            "rawdescription": "",
-            "type": "component",
-            "sourceCode": "import { Component, Input, Output, EventEmitter } from '@angular/core';\n\n@Component({\n  selector: 'storybook-header',\n  template: `<header>\n    <div class=\"wrapper\">\n      <div>\n        <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" xmlns=\"http://www.w3.org/2000/svg\">\n          <g fill=\"none\" fillRule=\"evenodd\">\n            <path\n              d=\"M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z\"\n              fill=\"#FFF\"\n            />\n            <path\n              d=\"M5.3 10.6l10.4 6v11.1l-10.4-6v-11zm11.4-6.2l9.7 5.5-9.7 5.6V4.4z\"\n              fill=\"#555AB9\"\n            />\n            <path\n              d=\"M27.2 10.6v11.2l-10.5 6V16.5l10.5-6zM15.7 4.4v11L6 10l9.7-5.5z\"\n              fill=\"#91BAF8\"\n            />\n          </g>\n        </svg>\n        <h1>Acme</h1>\n      </div>\n      <div>\n        <storybook-button\n          *ngIf=\"user\"\n          size=\"small\"\n          (onClick)=\"onLogout.emit($event)\"\n          label=\"Log out\"\n        ></storybook-button>\n        <storybook-button\n          *ngIf=\"!user\"\n          size=\"small\"\n          (onClick)=\"onLogin.emit($event)\"\n          label=\"Log in\"\n        ></storybook-button>\n        <storybook-button\n          *ngIf=\"!user\"\n          primary\n          size=\"small\"\n          (onClick)=\"onCreateAccount.emit($event)\"\n          label=\"Sign up\"\n        ></storybook-button>\n      </div>\n    </div>\n  </header>`,\n  styleUrls: ['./header.css'],\n})\nexport default class HeaderComponent {\n  @Input()\n  user: unknown = null;\n\n  @Output()\n  onLogin = new EventEmitter<Event>();\n\n  @Output()\n  onLogout = new EventEmitter<Event>();\n\n  @Output()\n  onCreateAccount = new EventEmitter<Event>();\n}\n",
-            "assetsDirs": [],
-            "styleUrlsData": [
-                {
-                    "data": ".wrapper {\n  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  padding: 15px 20px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n\nsvg {\n  display: inline-block;\n  vertical-align: top;\n}\n\nh1 {\n  font-weight: 900;\n  font-size: 20px;\n  line-height: 1;\n  margin: 6px 0 6px 10px;\n  display: inline-block;\n  vertical-align: top;\n}\n\nbutton + button {\n  margin-left: 10px;\n}\n",
-                    "styleUrl": "./header.css"
-                }
-            ],
-            "stylesData": ""
-        },
-        {
-            "name": "HeaderComponent",
-            "id": "component-HeaderComponent-141831b2a845ae145178561aae039ed3-1",
+            "id": "component-HeaderComponent-1236e1ca02f527a8e13c1a5e94d7f081",
             "file": "src/app/header/header.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -878,11 +911,11 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { AuthService } from './../services/auth.service';\nimport { Component, OnInit } from '@angular/core';\nimport { Store, select } from '@ngrx/store';\nimport { Observable } from 'rxjs';\nimport { changetheme } from '../state/theme.actions';\nimport { Router } from '@angular/router';\n\n@Component({\n  selector: 'app-header',\n  templateUrl: './header.component.html',\n  styleUrls: ['./header.component.scss']\n})\n\nexport class HeaderComponent implements OnInit {\n\n  theme$: Observable<string>\n\n  constructor(public authService:AuthService,private store: Store<{ theme: string }>,private router:Router) {\n    this.theme$ = store.pipe(select('theme'));\n   }\n\n  ngOnInit(): void {\n    \n  }\n\n logout(){\n   this.authService.logout();\n   this.router.navigate(['/quotes-list']);\n }\n\n changeTheme(){\n  this.store.dispatch(changetheme());\n }\n  \n\n}\n",
+            "sourceCode": "import { AuthService } from '../auth/auth.service';\nimport { Component, OnInit } from '@angular/core';\nimport { Store, select } from '@ngrx/store';\nimport { Observable } from 'rxjs';\nimport { changetheme } from '../state/theme.actions';\nimport { Router } from '@angular/router';\n\n@Component({\n  selector: 'app-header',\n  templateUrl: './header.component.html',\n  styleUrls: ['./header.component.scss']\n})\n\nexport class HeaderComponent implements OnInit {\n\n  theme$: Observable<string>\n\n  constructor(public authService:AuthService,private store: Store<{ theme: string }>,private router:Router) {\n    this.theme$ = store.pipe(select('theme'));\n   }\n\n  ngOnInit(): void {\n    \n  }\n\n logout(){\n   this.authService.logout();\n   this.router.navigate(['/quotes-list']);\n }\n\n changeTheme(){\n  this.store.dispatch(changetheme());\n }\n  \n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ":host{\r\n  .link-button{\r\n    padding: 8px 16px;\r\n    border: none;\r\n    outline: none;\r\n    font-size: 1rem;\r\n    font-weight: bold;\r\n    cursor: pointer;\r\n    background: transparent;\r\n  }\r\n  .top-nav{\r\n    align-items: center;\r\n    display: flex;\r\n  }\r\n  .theme-label{\r\n    padding: 0 8px;\r\n  }\r\n}\r\n\r\n\r\n",
+                    "data": ":host{\r\n  .top-nav{\r\n    align-items: center;\r\n    display: flex;\r\n  }\r\n  .theme-label{\r\n    padding: 0 8px;\r\n  }\r\n}\r\n\r\n\r\n",
                     "styleUrl": "./header.component.scss"
                 }
             ],
@@ -932,14 +965,11 @@
             "implements": [
                 "OnInit"
             ],
-            "isDuplicate": true,
-            "duplicateId": 1,
-            "duplicateName": "HeaderComponent-1",
-            "templateData": "<div class=\"header\" role=\"header\">\n  <h1 routerLink=\"/\">Quotes Assignment App</h1>\n  <div class=\"top-nav\">\n    <!-- <label class=\"toggle-switch\"> // Converted to lit element not needed anymore\n      <input type=\"checkbox\" value=\"{{theme$|async}}\" (change)=\"changeTheme(e)\">\n      <div class=\"slider\"></div>\n    </label> -->\n    <toggle-switch stateName=\"{{theme$|async}}\" (my-event)=\"changeTheme()\"></toggle-switch>\n    <button class=\"link-button\" routerLink=\"/add-quote\" *ngIf=\"this.authService.isUserLoggednIn\">+ Add Quote</button>\n    <button class=\"link-button\" routerLink=\"/register\" *ngIf=\"!this.authService.isUserLoggednIn\">Register</button>\n    <button class=\"link-button\" routerLink=\"/login\" *ngIf=\"!this.authService.isUserLoggednIn\">Login</button>\n    <button class=\"link-button\" (click)=\"logout()\" *ngIf=\"this.authService.isUserLoggednIn\">Logout</button>\n  </div>\n</div>\n"
+            "templateData": "<div class=\"header\" role=\"header\">\n  <h1 routerLink=\"/\">Quotes Assignment App</h1>\n  <div class=\"top-nav\">\n    <toggle-switch stateName=\"{{theme$|async}}\" (my-event)=\"changeTheme()\"></toggle-switch>\n    <app-custom-button type=\"link\" text=\"+ Add Quote\" *ngIf=\"this.authService.isUserLoggednIn\" routerLink=\"/add-quote\"></app-custom-button>\n    <app-custom-button type=\"link\" text=\"Register\"  routerLink=\"/register\" *ngIf=\"!this.authService.isUserLoggednIn\"></app-custom-button>\n    <app-custom-button type=\"link\" text=\"Login\" routerLink=\"/login\" *ngIf=\"!this.authService.isUserLoggednIn\"></app-custom-button>\n    <app-custom-button type=\"link\" text=\"Logout\" (click)=\"logout()\" *ngIf=\"this.authService.isUserLoggednIn\"></app-custom-button>\n  </div>\n</div>\n"
         },
         {
             "name": "LoginComponent",
-            "id": "component-LoginComponent-bbd605d1172ba0cc68fbdbac5b535d54",
+            "id": "component-LoginComponent-266f1907ba723cb3db55c0b2c45585fe",
             "file": "src/app/login/login.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -997,11 +1027,11 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { AuthService } from './../services/auth.service';\nimport { Component, OnInit } from '@angular/core';\nimport { FormGroup, FormBuilder } from '@angular/forms';\nimport { Router } from '@angular/router';\n@Component({\n  selector: 'app-login',\n  templateUrl: './login.component.html',\n  styleUrls: ['./login.component.scss']\n})\nexport class LoginComponent implements OnInit {\n  loginForm:FormGroup;\n \n  constructor(private formBuilder: FormBuilder,private AuthService:AuthService,private router:Router) { }\n\n  ngOnInit(): void {\n    this.generateForm();\n  }\n\n  generateForm(){\n    this.loginForm = this.formBuilder.group({\n      username: [''],\n      password: [''],\n    });\n  }\n\n  login() {\n    this.AuthService.login(this.loginForm.value);\n  }\n\n}\n",
+            "sourceCode": "import { AuthService } from '../auth/auth.service';\nimport { Component, OnInit } from '@angular/core';\nimport { FormGroup, FormBuilder } from '@angular/forms';\nimport { Router } from '@angular/router';\n@Component({\n  selector: 'app-login',\n  templateUrl: './login.component.html',\n  styleUrls: ['./login.component.scss']\n})\nexport class LoginComponent implements OnInit {\n  loginForm:FormGroup;\n \n  constructor(private formBuilder: FormBuilder,private AuthService:AuthService,private router:Router) { }\n\n  ngOnInit(): void {\n    this.generateForm();\n  }\n\n  generateForm(){\n    this.loginForm = this.formBuilder.group({\n      username: [''],\n      password: [''],\n    });\n  }\n\n  login() {\n    this.AuthService.login(this.loginForm.value);\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ":host{\r\n  display: block;\r\n  width: 40%;\r\n  margin-top:5%;\r\n  .container-box{\r\n    padding: 5%;\r\n  }\r\n}\r\n",
+                    "data": ":host{\r\n  display: block;\r\n  width: 40%;\r\n  margin-top:5%;\r\n  .container-box{\r\n    padding: 5%;\r\n    display: grid;\r\n  }\r\n}\r\n",
                     "styleUrl": "./login.component.scss"
                 }
             ],
@@ -1054,70 +1084,8 @@
             "templateData": "<div class=\"container-box\">\n<h2 class=\"text-center mb-10\">Login Form</h2>\n<form [formGroup]=\"loginForm\" (ngSubmit)=\"login()\">\n  <label>Username: </label>\n  <input type=\"text\" formControlName=\"username\">\n  <label> Password:</label>\n  <input type=\"password\" formControlName=\"password\">\n  <button type=\"submit\" [disabled]=\"!loginForm.valid\">Login</button>\n</form>\n</div>\n"
         },
         {
-            "name": "PageComponent",
-            "id": "component-PageComponent-cca1a8911321fa17756ce90c90de65cc",
-            "file": "src/stories/page.component.ts",
-            "encapsulation": [],
-            "entryComponents": [],
-            "inputs": [],
-            "outputs": [],
-            "providers": [],
-            "selector": "storybook-page",
-            "styleUrls": [
-                "./page.css"
-            ],
-            "styles": [],
-            "template": "<article>    <storybook-header\n      [user]=\"user\"\n      (onLogout)=\"onLogout.emit($event)\"\n      (onLogin)=\"onLogin.emit($event)\"\n      (onCreateAccount)=\"onCreateAccount.emit($event)\"\n    ></storybook-header>\n    <section>\n      <h2>Pages in Storybook</h2>\n      <p>\n        We recommend building UIs with a\n        <a href=\"https://componentdriven.org\" target=\"_blank\" rel=\"noopener noreferrer\">\n          <strong>component-driven</strong>\n        </a>\n        process starting with atomic components and ending with pages.\n      </p>\n      <p>\n        Render pages with mock data. This makes it easy to build and review page states without\n        needing to navigate to them in your app. Here are some handy patterns for managing page data\n        in Storybook:\n      </p>\n      <ul>\n        <li>\n          Use a higher-level connected component. Storybook helps you compose such data from the\n          \"args\" of child component stories\n        </li>\n        <li>\n          Assemble data in the page component from your services. You can mock these services out\n          using Storybook.\n        </li>\n      </ul>\n      <p>\n        Get a guided tutorial on component-driven development at\n        <a href=\"https://www.learnstorybook.com\" target=\"_blank\" rel=\"noopener noreferrer\">\n          Learn Storybook\n        </a>\n        . Read more in the\n        <a href=\"https://storybook.js.org/docs\" target=\"_blank\" rel=\"noopener noreferrer\">\n          docs\n        </a>\n        .\n      </p>\n      <div class=\"tip-wrapper\">\n        <span class=\"tip\">Tip</span> Adjust the width of the canvas with the\n        <svg width=\"10\" height=\"10\" viewBox=\"0 0 12 12\" xmlns=\"http://www.w3.org/2000/svg\">\n          <g fill=\"none\" fillRule=\"evenodd\">\n            <path\n              d=\"M1.5 5.2h4.8c.3 0 .5.2.5.4v5.1c-.1.2-.3.3-.4.3H1.4a.5.5 0 01-.5-.4V5.7c0-.3.2-.5.5-.5zm0-2.1h6.9c.3 0 .5.2.5.4v7a.5.5 0 01-1 0V4H1.5a.5.5 0 010-1zm0-2.1h9c.3 0 .5.2.5.4v9.1a.5.5 0 01-1 0V2H1.5a.5.5 0 010-1zm4.3 5.2H2V10h3.8V6.2z\"\n              id=\"a\"\n              fill=\"#999\"\n            />\n          </g>\n        </svg>\n        Viewports addon in the toolbar\n      </div>\n    </section>\n  </article>",
-            "templateUrl": [],
-            "viewProviders": [],
-            "inputsClass": [
-                {
-                    "name": "user",
-                    "defaultValue": "null",
-                    "line": 66,
-                    "type": "unknown"
-                }
-            ],
-            "outputsClass": [
-                {
-                    "name": "onCreateAccount",
-                    "defaultValue": "new EventEmitter<Event>()",
-                    "line": 75,
-                    "type": "EventEmitter"
-                },
-                {
-                    "name": "onLogin",
-                    "defaultValue": "new EventEmitter<Event>()",
-                    "line": 69,
-                    "type": "EventEmitter"
-                },
-                {
-                    "name": "onLogout",
-                    "defaultValue": "new EventEmitter<Event>()",
-                    "line": 72,
-                    "type": "EventEmitter"
-                }
-            ],
-            "propertiesClass": [],
-            "methodsClass": [],
-            "hostBindings": [],
-            "hostListeners": [],
-            "description": "",
-            "rawdescription": "",
-            "type": "component",
-            "sourceCode": "import { Component, Input, Output, EventEmitter } from '@angular/core';\n\n@Component({\n  selector: 'storybook-page',\n  template: `<article>\n    <storybook-header\n      [user]=\"user\"\n      (onLogout)=\"onLogout.emit($event)\"\n      (onLogin)=\"onLogin.emit($event)\"\n      (onCreateAccount)=\"onCreateAccount.emit($event)\"\n    ></storybook-header>\n    <section>\n      <h2>Pages in Storybook</h2>\n      <p>\n        We recommend building UIs with a\n        <a href=\"https://componentdriven.org\" target=\"_blank\" rel=\"noopener noreferrer\">\n          <strong>component-driven</strong>\n        </a>\n        process starting with atomic components and ending with pages.\n      </p>\n      <p>\n        Render pages with mock data. This makes it easy to build and review page states without\n        needing to navigate to them in your app. Here are some handy patterns for managing page data\n        in Storybook:\n      </p>\n      <ul>\n        <li>\n          Use a higher-level connected component. Storybook helps you compose such data from the\n          \"args\" of child component stories\n        </li>\n        <li>\n          Assemble data in the page component from your services. You can mock these services out\n          using Storybook.\n        </li>\n      </ul>\n      <p>\n        Get a guided tutorial on component-driven development at\n        <a href=\"https://www.learnstorybook.com\" target=\"_blank\" rel=\"noopener noreferrer\">\n          Learn Storybook\n        </a>\n        . Read more in the\n        <a href=\"https://storybook.js.org/docs\" target=\"_blank\" rel=\"noopener noreferrer\">\n          docs\n        </a>\n        .\n      </p>\n      <div class=\"tip-wrapper\">\n        <span class=\"tip\">Tip</span> Adjust the width of the canvas with the\n        <svg width=\"10\" height=\"10\" viewBox=\"0 0 12 12\" xmlns=\"http://www.w3.org/2000/svg\">\n          <g fill=\"none\" fillRule=\"evenodd\">\n            <path\n              d=\"M1.5 5.2h4.8c.3 0 .5.2.5.4v5.1c-.1.2-.3.3-.4.3H1.4a.5.5 0 01-.5-.4V5.7c0-.3.2-.5.5-.5zm0-2.1h6.9c.3 0 .5.2.5.4v7a.5.5 0 01-1 0V4H1.5a.5.5 0 010-1zm0-2.1h9c.3 0 .5.2.5.4v9.1a.5.5 0 01-1 0V2H1.5a.5.5 0 010-1zm4.3 5.2H2V10h3.8V6.2z\"\n              id=\"a\"\n              fill=\"#999\"\n            />\n          </g>\n        </svg>\n        Viewports addon in the toolbar\n      </div>\n    </section>\n  </article>`,\n  styleUrls: ['./page.css'],\n})\nexport default class PageComponent {\n  @Input()\n  user: unknown = null;\n\n  @Output()\n  onLogin = new EventEmitter<Event>();\n\n  @Output()\n  onLogout = new EventEmitter<Event>();\n\n  @Output()\n  onCreateAccount = new EventEmitter<Event>();\n}\n\n// export const Page = ({ user, onLogin, onLogout, onCreateAccount }) => (\n//   <article>\n//     <Header user={user} onLogin={onLogin} onLogout={onLogout} onCreateAccount={onCreateAccount} />\n\n// );\n// Page.propTypes = {\n//   user: PropTypes.shape({}),\n//   onLogin: PropTypes.func.isRequired,\n//   onLogout: PropTypes.func.isRequired,\n//   onCreateAccount: PropTypes.func.isRequired,\n// };\n\n// Page.defaultProps = {\n//   user: null,\n// };\n",
-            "assetsDirs": [],
-            "styleUrlsData": [
-                {
-                    "data": "section {\n  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;\n  font-size: 14px;\n  line-height: 24px;\n  padding: 48px 20px;\n  margin: 0 auto;\n  max-width: 600px;\n  color: #333;\n}\n\nh2 {\n  font-weight: 900;\n  font-size: 32px;\n  line-height: 1;\n  margin: 0 0 4px;\n  display: inline-block;\n  vertical-align: top;\n}\n\np {\n  margin: 1em 0;\n}\n\na {\n  text-decoration: none;\n  color: #1ea7fd;\n}\n\nul {\n  padding-left: 30px;\n  margin: 1em 0;\n}\n\nli {\n  margin-bottom: 8px;\n}\n\n.tip {\n  display: inline-block;\n  border-radius: 1em;\n  font-size: 11px;\n  line-height: 12px;\n  font-weight: 700;\n  background: #e7fdd8;\n  color: #66bf3c;\n  padding: 4px 12px;\n  margin-right: 10px;\n  vertical-align: top;\n}\n\n.tip-wrapper {\n  font-size: 13px;\n  line-height: 20px;\n  margin-top: 40px;\n  margin-bottom: 40px;\n}\n\n.tip-wrapper svg {\n  display: inline-block;\n  height: 12px;\n  width: 12px;\n  margin-right: 4px;\n  vertical-align: top;\n  margin-top: 3px;\n}\n\n.tip-wrapper svg path {\n  fill: #1ea7fd;\n}\n",
-                    "styleUrl": "./page.css"
-                }
-            ],
-            "stylesData": ""
-        },
-        {
             "name": "QuoteDisplayComponentComponent",
-            "id": "component-QuoteDisplayComponentComponent-e5798c8d83888da7e7fab2edeb2b8e11",
+            "id": "component-QuoteDisplayComponentComponent-50e90818fb66807eab7cca79f9b953ad",
             "file": "src/app/quote-display-component/quote-display-component.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1141,7 +1109,7 @@
                     "type": "AuthService",
                     "optional": false,
                     "description": "",
-                    "line": 13,
+                    "line": 14,
                     "modifierKind": [
                         114
                     ]
@@ -1151,7 +1119,17 @@
                     "type": "any",
                     "optional": false,
                     "description": "",
-                    "line": 11
+                    "line": 12
+                },
+                {
+                    "name": "snackbarService",
+                    "type": "SnackbarService",
+                    "optional": false,
+                    "description": "",
+                    "line": 14,
+                    "modifierKind": [
+                        114
+                    ]
                 }
             ],
             "methodsClass": [
@@ -1221,7 +1199,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport {QuotesServiceService} from '../services/quotes-service.service'\nimport { AuthService } from '../services/auth.service';\n\n@Component({\n  selector: 'app-quote-display-component',\n  templateUrl: './quote-display-component.component.html',\n  styleUrls: ['./quote-display-component.component.scss']\n})\nexport class QuoteDisplayComponentComponent implements OnInit {\n  quotesList:any;\n\n  constructor(private quotesService:QuotesServiceService,public authService:AuthService) {\n\n   }\n\n  ngOnInit(): void {\n   this.getQuotes();\n  }\n\n  getQuotes(){\n    this.quotesService.getQuotes().subscribe(resp=>{\n      if(resp){\n        this.quotesList = resp;\n      }\n    })\n  }\n\n  trackByFn(index) {\n    return index;\n    }\n\n  deleteQuote (id) {\n    this.quotesService.deleteQuote(id).subscribe(resp=>{\n      if(resp){\n        this.getQuotes();\n      }\n    },(error)=>{\n      console.log(error);\n    })\n  }\n\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport {QuotesServiceService} from '../services/quotes-service.service'\nimport { AuthService } from '../auth/auth.service';\nimport { SnackbarService } from '../services/snackbar.service';\n\n@Component({\n  selector: 'app-quote-display-component',\n  templateUrl: './quote-display-component.component.html',\n  styleUrls: ['./quote-display-component.component.scss']\n})\nexport class QuoteDisplayComponentComponent implements OnInit {\n  quotesList:any;\n\n  constructor(private quotesService:QuotesServiceService,public authService:AuthService,public snackbarService:SnackbarService) {\n   }\n\n  ngOnInit(): void {\n   this.getQuotes();\n  }\n\n  getQuotes(){\n    this.quotesService.getQuotes().subscribe(resp=>{\n      if(resp){\n        this.quotesList = resp;\n      }\n    })\n  }\n\n  trackByFn(index) {\n    return index;\n  }\n\n  deleteQuote (id) {\n    this.quotesService.deleteQuote(id).subscribe(resp=>{\n      if(resp){\n        this.snackbarService.setSnackBar('Quote is deleted successfully','danger');\n        this.getQuotes();\n      }\n    },(error)=>{\n      console.log(error);\n    })\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -1241,9 +1219,13 @@
                     {
                         "name": "authService",
                         "type": "AuthService"
+                    },
+                    {
+                        "name": "snackbarService",
+                        "type": "SnackbarService"
                     }
                 ],
-                "line": 11,
+                "line": 12,
                 "jsdoctags": [
                     {
                         "name": "quotesService",
@@ -1258,6 +1240,13 @@
                         "tagName": {
                             "text": "param"
                         }
+                    },
+                    {
+                        "name": "snackbarService",
+                        "type": "SnackbarService",
+                        "tagName": {
+                            "text": "param"
+                        }
                     }
                 ]
             },
@@ -1268,7 +1257,7 @@
         },
         {
             "name": "RegistrationComponent",
-            "id": "component-RegistrationComponent-e584c1a6ddb818569507e080090da68f",
+            "id": "component-RegistrationComponent-230f840094c208beba712ed80097d0f1",
             "file": "src/app/registration/registration.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1292,7 +1281,7 @@
                     "type": "FormGroup",
                     "optional": false,
                     "description": "",
-                    "line": 12
+                    "line": 13
                 }
             ],
             "methodsClass": [
@@ -1302,7 +1291,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 19
+                    "line": 20
                 },
                 {
                     "name": "ngOnInit",
@@ -1310,7 +1299,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 15
+                    "line": 16
                 },
                 {
                     "name": "register",
@@ -1318,7 +1307,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 25
+                    "line": 26
                 }
             ],
             "hostBindings": [],
@@ -1326,11 +1315,11 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { AuthService } from './../services/auth.service';\nimport { FormGroup, FormBuilder } from '@angular/forms';\nimport { Router } from '@angular/router';\nimport {IUser} from '../models/user';\n@Component({\n  selector: 'app-registration',\n  templateUrl: './registration.component.html',\n  styleUrls: ['./registration.component.scss']\n})\nexport class RegistrationComponent implements OnInit {\n  loginForm:FormGroup;\n  constructor(private formBuilder: FormBuilder,private AuthService:AuthService,private router:Router) { }\n\n  ngOnInit(): void {\n    this.generateForm();\n  }\n\n  generateForm(){\n    this.loginForm = this.formBuilder.group({\n      username: [''],\n      password: [''],\n    });\n  }\n  register() {\n    this.AuthService.register(this.loginForm.value).subscribe(resp=>{\n      this.router.navigate(['/login']);\n    },(error)=>{\n      console.log(error);\n    });\n  }\n\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { AuthService } from '../auth/auth.service';\nimport { FormGroup, FormBuilder } from '@angular/forms';\nimport { Router } from '@angular/router';\nimport {IUser} from '../models/user';\nimport { SnackbarService } from '../services/snackbar.service';\n@Component({\n  selector: 'app-registration',\n  templateUrl: './registration.component.html',\n  styleUrls: ['./registration.component.scss']\n})\nexport class RegistrationComponent implements OnInit {\n  loginForm:FormGroup;\n  constructor(private formBuilder: FormBuilder,private AuthService:AuthService,private router:Router,private snackbarService:SnackbarService) { }\n\n  ngOnInit(): void {\n    this.generateForm();\n  }\n\n  generateForm(){\n    this.loginForm = this.formBuilder.group({\n      username: [''],\n      password: [''],\n    });\n  }\n  register() {\n    this.AuthService.register(this.loginForm.value).subscribe(resp=>{\n      this.router.navigate(['/login']);\n      this.snackbarService.setSnackBar('User Added Successfully','success');\n    },(error)=>{\n      console.log(error);\n      this.snackbarService.setSnackBar('User add failed','danger');\n    });\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ":host{\r\n    display: block;\r\n    width: 40%;\r\n    margin-top:5%;\r\n    .container-box{\r\n      padding: 5%;\r\n    }\r\n  }\r\n  ",
+                    "data": ":host{\r\n    display: block;\r\n    width: 40%;\r\n    margin-top:5%;\r\n    .container-box{\r\n      padding: 5%;\r\n      display: grid;\r\n    }\r\n  }\r\n  ",
                     "styleUrl": "./registration.component.scss"
                 }
             ],
@@ -1350,9 +1339,13 @@
                     {
                         "name": "router",
                         "type": "Router"
+                    },
+                    {
+                        "name": "snackbarService",
+                        "type": "SnackbarService"
                     }
                 ],
-                "line": 12,
+                "line": 13,
                 "jsdoctags": [
                     {
                         "name": "formBuilder",
@@ -1374,6 +1367,13 @@
                         "tagName": {
                             "text": "param"
                         }
+                    },
+                    {
+                        "name": "snackbarService",
+                        "type": "SnackbarService",
+                        "tagName": {
+                            "text": "param"
+                        }
                     }
                 ]
             },
@@ -1381,6 +1381,73 @@
                 "OnInit"
             ],
             "templateData": "<div class=\"container-box\">\n    <h2 class=\"text-center mb-10\">Registration Form</h2>\n    <form [formGroup]=\"loginForm\" (ngSubmit)=\"register()\">\n      <label>Username: </label>\n      <input type=\"text\" formControlName=\"username\">\n      <label> Password:</label>\n      <input type=\"password\" formControlName=\"password\">\n      <button type=\"submit\" [disabled]=\"!loginForm.valid\">Register</button>\n    </form>\n    </div>\n    "
+        },
+        {
+            "name": "SnackBarComponent",
+            "id": "component-SnackBarComponent-635f2cda1d1324635610f0629f00635f",
+            "file": "src/app/snack-bar/snack-bar.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-snack-bar",
+            "styleUrls": [
+                "./snack-bar.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./snack-bar.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "text",
+                    "line": 10,
+                    "type": "string"
+                },
+                {
+                    "name": "type",
+                    "line": 11,
+                    "type": "string"
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 14
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit, Input } from '@angular/core';\n\n@Component({\n  selector: 'app-snack-bar',\n  templateUrl: './snack-bar.component.html',\n  styleUrls: ['./snack-bar.component.scss']\n})\nexport class SnackBarComponent implements OnInit {\n\n  @Input() text:string;\n  @Input() type:string;\n\n  constructor() { }\n  ngOnInit(): void {\n  }\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host{\r\n    display: block;\r\n   .snack-bar-container{\r\n    width: 100%;\r\n    height: 30px;\r\n    max-height: 60px;\r\n    position: fixed;\r\n    bottom: 0;\r\n    left: 0;\r\n    background: lightgray;\r\n    text-align: center;\r\n    color: black;\r\n    font-size: 1.2rem;\r\n   }\r\n\r\n    .danger{\r\n        background: red;\r\n        color: white;\r\n    }\r\n    .success{\r\n        background: green;\r\n        color: white;\r\n\r\n    }\r\n}",
+                    "styleUrl": "./snack-bar.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 11
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"snack-bar-container\" [ngClass]=\"{'danger':type==='danger','success':type==='success'}\">\n    <div class=\"snack-bar-text\">{{text}}</div>\n</div>"
         }
     ],
     "modules": [
@@ -1401,6 +1468,12 @@
                             "name": "AppComponent"
                         },
                         {
+                            "name": "CustomButtonComponent"
+                        },
+                        {
+                            "name": "HeaderComponent"
+                        },
+                        {
                             "name": "LoginComponent"
                         },
                         {
@@ -1408,6 +1481,9 @@
                         },
                         {
                             "name": "RegistrationComponent"
+                        },
+                        {
+                            "name": "SnackBarComponent"
                         }
                     ]
                 },
@@ -1475,7 +1551,7 @@
                 "subtype": "variable",
                 "file": "src/app/state/theme.reducer.ts",
                 "type": "",
-                "defaultValue": "createReducer(\r\n  initialState,\r\n  on(changetheme, (state) => {\r\n    if(state === 'Dark') {\r\n      return 'Light'\r\n    } else{\r\n      return 'Dark'\r\n    }\r\n  } ),\r\n)"
+                "defaultValue": "createReducer(\r\n  initialState,\r\n  on(changetheme, (state) => {\r\n    if(state === 'Dark') {\r\n      \r\n      return 'Light'\r\n    } else{\r\n      return 'Dark'\r\n    }\r\n  } ),\r\n)"
             },
             {
                 "name": "changetheme",
@@ -1484,6 +1560,38 @@
                 "file": "src/app/state/theme.actions.ts",
                 "type": "",
                 "defaultValue": "createAction('[Header Component] Change Theme')"
+            },
+            {
+                "name": "Danger",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/custom-button.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Danger",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Snackbar.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/custom-button.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Snackbar.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
             },
             {
                 "name": "environment",
@@ -1510,42 +1618,10 @@
                 "defaultValue": "'Light'"
             },
             {
-                "name": "Large",
+                "name": "Link",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/stories/Button.stories.ts",
-                "type": "",
-                "defaultValue": "Template.bind({})"
-            },
-            {
-                "name": "LoggedIn",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/stories/Header.stories.ts",
-                "type": "",
-                "defaultValue": "Template.bind({})"
-            },
-            {
-                "name": "LoggedIn",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/stories/Page.stories.ts",
-                "type": "",
-                "defaultValue": "Template.bind({})"
-            },
-            {
-                "name": "LoggedOut",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/stories/Header.stories.ts",
-                "type": "",
-                "defaultValue": "Template.bind({})"
-            },
-            {
-                "name": "LoggedOut",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/stories/Page.stories.ts",
+                "file": "src/stories/custom-button.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
             },
@@ -1553,15 +1629,7 @@
                 "name": "Primary",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/stories/Button.stories.ts",
-                "type": "",
-                "defaultValue": "Template.bind({})"
-            },
-            {
-                "name": "Secondary",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/stories/Button.stories.ts",
+                "file": "src/stories/custom-button.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
             },
@@ -1574,10 +1642,10 @@
                 "defaultValue": "'http://localhost:3000'"
             },
             {
-                "name": "Small",
+                "name": "Success",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/stories/Button.stories.ts",
+                "file": "src/stories/Snackbar.stories.ts",
                 "type": "",
                 "defaultValue": "Template.bind({})"
             },
@@ -1585,33 +1653,17 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/stories/Button.stories.ts",
-                "type": "Story<Button>",
-                "defaultValue": "(args: Button) => ({\n  component: Button,\n  props: args,\n})"
+                "file": "src/stories/custom-button.stories.ts",
+                "type": "Story<CustomButtonComponent>",
+                "defaultValue": "(args: CustomButtonComponent) => ({\n  component: CustomButtonComponent,\n  props: args,\n})"
             },
             {
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/stories/Header.stories.ts",
-                "type": "Story<Header>",
-                "defaultValue": "(args: Header) => ({\n  component: Header,\n  props: args,\n})"
-            },
-            {
-                "name": "Template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/stories/Page.stories.ts",
-                "type": "Story<Page>",
-                "defaultValue": "(args: Page) => ({\n  component: Page,\n  props: args,\n})"
-            },
-            {
-                "name": "Template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/stories/quote-display.stories.ts",
-                "type": "Story<QuoteDisplayComponentComponent>",
-                "defaultValue": "(args: QuoteDisplayComponentComponent) => ({\n  component: QuoteDisplayComponentComponent,\n  props: args,\n})"
+                "file": "src/stories/Snackbar.stories.ts",
+                "type": "Story<SnackBarComponent>",
+                "defaultValue": "(args: SnackBarComponent) => ({\n  component: SnackBarComponent,\n  props: args,\n})"
             }
         ],
         "functions": [
@@ -1659,7 +1711,7 @@
                     "subtype": "variable",
                     "file": "src/app/state/theme.reducer.ts",
                     "type": "",
-                    "defaultValue": "createReducer(\r\n  initialState,\r\n  on(changetheme, (state) => {\r\n    if(state === 'Dark') {\r\n      return 'Light'\r\n    } else{\r\n      return 'Dark'\r\n    }\r\n  } ),\r\n)"
+                    "defaultValue": "createReducer(\r\n  initialState,\r\n  on(changetheme, (state) => {\r\n    if(state === 'Dark') {\r\n      \r\n      return 'Light'\r\n    } else{\r\n      return 'Dark'\r\n    }\r\n  } ),\r\n)"
                 },
                 {
                     "name": "initialState",
@@ -1678,6 +1730,82 @@
                     "file": "src/app/state/theme.actions.ts",
                     "type": "",
                     "defaultValue": "createAction('[Header Component] Change Theme')"
+                }
+            ],
+            "src/stories/custom-button.stories.ts": [
+                {
+                    "name": "Danger",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/custom-button.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/custom-button.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Link",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/custom-button.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/custom-button.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/custom-button.stories.ts",
+                    "type": "Story<CustomButtonComponent>",
+                    "defaultValue": "(args: CustomButtonComponent) => ({\n  component: CustomButtonComponent,\n  props: args,\n})"
+                }
+            ],
+            "src/stories/Snackbar.stories.ts": [
+                {
+                    "name": "Danger",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Snackbar.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Snackbar.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Success",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Snackbar.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Snackbar.stories.ts",
+                    "type": "Story<SnackBarComponent>",
+                    "defaultValue": "(args: SnackBarComponent) => ({\n  component: SnackBarComponent,\n  props: args,\n})"
                 }
             ],
             "src/environments/environment.prod.ts": [
@@ -1706,110 +1834,6 @@
                     "file": "src/environments/environment.ts",
                     "type": "string",
                     "defaultValue": "'http://localhost:3000'"
-                }
-            ],
-            "src/stories/Button.stories.ts": [
-                {
-                    "name": "Large",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/stories/Button.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Primary",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/stories/Button.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Secondary",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/stories/Button.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Small",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/stories/Button.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/stories/Button.stories.ts",
-                    "type": "Story<Button>",
-                    "defaultValue": "(args: Button) => ({\n  component: Button,\n  props: args,\n})"
-                }
-            ],
-            "src/stories/Header.stories.ts": [
-                {
-                    "name": "LoggedIn",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/stories/Header.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "LoggedOut",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/stories/Header.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/stories/Header.stories.ts",
-                    "type": "Story<Header>",
-                    "defaultValue": "(args: Header) => ({\n  component: Header,\n  props: args,\n})"
-                }
-            ],
-            "src/stories/Page.stories.ts": [
-                {
-                    "name": "LoggedIn",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/stories/Page.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "LoggedOut",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/stories/Page.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/stories/Page.stories.ts",
-                    "type": "Story<Page>",
-                    "defaultValue": "(args: Page) => ({\n  component: Page,\n  props: args,\n})"
-                }
-            ],
-            "src/stories/quote-display.stories.ts": [
-                {
-                    "name": "Template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/stories/quote-display.stories.ts",
-                    "type": "Story<QuoteDisplayComponentComponent>",
-                    "defaultValue": "(args: QuoteDisplayComponentComponent) => ({\n  component: QuoteDisplayComponentComponent,\n  props: args,\n})"
                 }
             ]
         },
@@ -1882,11 +1906,17 @@
                     },
                     {
                         "path": "add-quote",
-                        "component": "AddQuoteComponent"
+                        "component": "AddQuoteComponent",
+                        "canActivate": [
+                            "AuthGuard"
+                        ]
                     },
                     {
                         "path": "edit-quote",
-                        "component": "AddQuoteComponent"
+                        "component": "AddQuoteComponent",
+                        "canActivate": [
+                            "AuthGuard"
+                        ]
                     },
                     {
                         "path": "**",
@@ -1898,7 +1928,7 @@
         ]
     },
     "coverage": {
-        "count": 2,
+        "count": 0,
         "status": "low",
         "files": [
             {
@@ -1925,7 +1955,34 @@
                 "linktype": "component",
                 "name": "AppComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/4",
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/auth/auth.guard.ts",
+                "type": "guard",
+                "linktype": "guard",
+                "name": "AuthGuard",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/auth/auth.service.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "AuthService",
+                "coveragePercent": 0,
+                "coverageCount": "0/7",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/common-components/custom-button/custom-button.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "CustomButtonComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
                 "status": "low"
             },
             {
@@ -1979,7 +2036,7 @@
                 "linktype": "component",
                 "name": "QuoteDisplayComponentComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/8",
+                "coverageCount": "0/9",
                 "status": "low"
             },
             {
@@ -1992,21 +2049,30 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/services/auth.service.ts",
-                "type": "injectable",
-                "linktype": "injectable",
-                "name": "AuthService",
-                "coveragePercent": 0,
-                "coverageCount": "0/7",
-                "status": "low"
-            },
-            {
                 "filePath": "src/app/services/quotes-service.service.ts",
                 "type": "injectable",
                 "linktype": "injectable",
                 "name": "QuotesServiceService",
                 "coveragePercent": 0,
                 "coverageCount": "0/6",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/services/snackbar.service.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "SnackbarService",
+                "coveragePercent": 0,
+                "coverageCount": "0/6",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/snack-bar/snack-bar.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SnackBarComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
                 "status": "low"
             },
             {
@@ -2079,17 +2145,77 @@
                 "status": "low"
             },
             {
-                "filePath": "src/stories/Button.stories.ts",
+                "filePath": "src/stories/Snackbar.stories.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "Large",
+                "name": "Danger",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
             },
             {
-                "filePath": "src/stories/Button.stories.ts",
+                "filePath": "src/stories/Snackbar.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Snackbar.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Success",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Snackbar.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/custom-button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Danger",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/custom-button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/custom-button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Link",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/custom-button.stories.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
@@ -2099,124 +2225,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/stories/Button.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Secondary",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/Button.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Small",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/Button.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Template",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/Header.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "LoggedIn",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/Header.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "LoggedOut",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/Header.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Template",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/Page.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "LoggedIn",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/Page.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "LoggedOut",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/Page.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Template",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/button.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "ButtonComponent",
-                "coveragePercent": 83,
-                "coverageCount": "5/6",
-                "status": "very-good"
-            },
-            {
-                "filePath": "src/stories/header.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "HeaderComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/5",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/page.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "PageComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/5",
-                "status": "low"
-            },
-            {
-                "filePath": "src/stories/quote-display.stories.ts",
+                "filePath": "src/stories/custom-button.stories.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",

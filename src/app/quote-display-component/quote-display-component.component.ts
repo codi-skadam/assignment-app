@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {QuotesServiceService} from '../services/quotes-service.service'
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../auth/auth.service';
+import { SnackbarService } from '../services/snackbar.service';
 
 @Component({
   selector: 'app-quote-display-component',
@@ -10,8 +11,7 @@ import { AuthService } from '../services/auth.service';
 export class QuoteDisplayComponentComponent implements OnInit {
   quotesList:any;
 
-  constructor(private quotesService:QuotesServiceService,public authService:AuthService) {
-
+  constructor(private quotesService:QuotesServiceService,public authService:AuthService,public snackbarService:SnackbarService) {
    }
 
   ngOnInit(): void {
@@ -28,11 +28,12 @@ export class QuoteDisplayComponentComponent implements OnInit {
 
   trackByFn(index) {
     return index;
-    }
+  }
 
   deleteQuote (id) {
     this.quotesService.deleteQuote(id).subscribe(resp=>{
       if(resp){
+        this.snackbarService.setSnackBar('Quote is deleted successfully','danger');
         this.getQuotes();
       }
     },(error)=>{

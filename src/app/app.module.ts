@@ -15,6 +15,7 @@ import {themeReducer} from './state/theme.reducer';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { SnackBarComponent } from './snack-bar/snack-bar.component';
+import { CustomButtonComponent } from './common-components/custom-button/custom-button.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { SnackBarComponent } from './snack-bar/snack-bar.component';
     AddQuoteComponent,
     LoginComponent,
     RegistrationComponent,
-    SnackBarComponent
+    SnackBarComponent,
+    CustomButtonComponent
   ],
   imports: [
     BrowserModule,

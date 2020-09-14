@@ -1,0 +1,23 @@
+:host{
+    display: inline-block;
+    button{
+        padding: 8px 16px;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .default-btn{
+        background: lightgray;
+    }
+    .link-button{
+        background: transparent;
+    }
+    .primary-btn{
+        background-color: chartreuse;
+    }
+    .danger-btn{
+        background: red;
+    }
+}

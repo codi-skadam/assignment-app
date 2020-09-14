@@ -2,7 +2,9 @@
   <app-header></app-header>
   <div class="content" role="main" >
     <router-outlet></router-outlet>
-    <app-snack-bar text="This is snackbar"></app-snack-bar>
+    <ng-container  *ngIf="this.snackbarService.isSnackbarActive">
+      <app-snack-bar text="{{this.snackbarService.text}}" type="{{this.snackbarService.type}}"></app-snack-bar>
+    </ng-container>
   </div>
 </div>
 

@@ -23,8 +23,8 @@ const Template: Story<SnackBarComponent> = (args: SnackBarComponent) => ({
   props: args,
 });
 
-export const Init = Template.bind({});
-Init.args={
+export const Default = Template.bind({});
+Default.args={
   text:'This is snackbar',
   type:''
 }

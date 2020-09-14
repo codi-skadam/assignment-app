@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-  public isUserLoggednIn:boolean =false;
+  public isUserLoggednIn:boolean = false;
   constructor(private http: HttpClient,private router:Router) {
     this.isUserLoggednIn = localStorage.getItem('currentUser') ? true : false;
    }
@@ -37,7 +37,7 @@ export class AuthService {
     this.isUserLoggednIn = false;
   }
 
-  getLoggedInUser() {
+  isUserAuthenticated() {
    return this.isUserLoggednIn;
   }
 }

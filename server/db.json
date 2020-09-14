@@ -1,33 +1,28 @@
 {
   "quotes": [
     {
-      "id": 1,
-      "quote": "You only live once, but if you do it right, once is enough.",
-      "authorName": "Mae West"
-    },
-    {
       "quote": "Code is Art Code is Us.",
-      "authorName": "CODITAS",
+      "authorName": "CODITAS.",
       "id": 12
     },
     {
-      "quote": "All problems in computer science can be solved by another level of indirection.",
-      "authorName": "David Wheeler",
-      "id": 13
-    },
-    {
       "quote": "Programs must be written for people to read, and only incidentally for machines to execute.",
-      "authorName": "Harold Abelson, Structure and Interpretation of Computer Programs",
+      "authorName": "Harold Abelson, Structure and Interpretation of Computer Programs.",
       "id": 14
     },
     {
-      "quote": "Thi is my first time ",
-      "authorName": "-shivkant",
+      "quote": "Thi si new quote.",
+      "authorName": "This is new one.",
+      "id": 15
+    },
+    {
+      "quote": "This is for snackbar testing.",
+      "authorName": "Shivkant Kadam",
       "id": 16
     },
     {
-      "quote": "this is new ",
-      "authorName": "new",
+      "quote": "Wake Up and Stop Not Till The Goal Is Acheived.",
+      "authorName": "S. Vivekanand",
       "id": 17
     }
   ],
@@ -51,6 +46,16 @@
       "username": "ravi",
       "password": "ravi",
       "id": 4
+    },
+    {
+      "username": "shivkant",
+      "password": "shivaknt",
+      "id": 5
+    },
+    {
+      "username": "admin",
+      "password": "admin",
+      "id": 6
     }
   ]
 }

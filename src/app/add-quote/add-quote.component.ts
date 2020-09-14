@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import {QuotesServiceService} from '../services/quotes-service.service'
+import {SnackbarService} from '../services/snackbar.service'
 import {Router,ActivatedRoute, ActivatedRouteSnapshot} from "@angular/router"
 import {IQuotes} from '../models/quotes'
 
@@ -15,7 +16,13 @@ export class AddQuoteComponent implements OnInit {
   isEdit:boolean=false;
   quoteData:IQuotes;
 
-  constructor(private formBuilder: FormBuilder,private quotesService:QuotesServiceService,private router: Router,public activatedRoute: ActivatedRoute) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private quotesService:QuotesServiceService,
+    private router: Router,
+    public activatedRoute: ActivatedRoute,
+    private snackbarService:SnackbarService
+    ) {
     this.generateForm();
   }
 
@@ -35,8 +42,9 @@ export class AddQuoteComponent implements OnInit {
   }
 
   saveQuote() {
-    this.quotesService.addQuote(this.quoteForm.value).subscribe(resp=>{
+    this.quotesService.addQuote({...this.quoteForm.value}).subscribe(resp=>{
       if(resp){
+        this.snackbarService.setSnackBar('Quote is Added Successfully','success');
         this.router.navigate(['/']);
       }
     },(error)=>{
@@ -47,6 +55,7 @@ export class AddQuoteComponent implements OnInit {
   updateQuote () {
     this.quotesService.updateQuote(this.quoteForm.value,this.quoteData).subscribe(resp=>{
       if(resp){
+        this.snackbarService.setSnackBar('Quote is Updated Successfully','success');
         this.router.navigate(['quotes-list']);
       }
     },(error)=>{

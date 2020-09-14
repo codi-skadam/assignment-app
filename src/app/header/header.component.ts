@@ -1,4 +1,4 @@
-import { AuthService } from './../services/auth.service';
+import { AuthService } from '../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -32,5 +32,4 @@ export class HeaderComponent implements OnInit {
   this.store.dispatch(changetheme());
  }
   
-
 }
